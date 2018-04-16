@@ -4,8 +4,10 @@ one:
   title: MyString
   url: MyString
   text: MyText
+  user_id: 1
 
 two:
   title: MyString
   url: MyString
   text: MyText
+  user_id: 1

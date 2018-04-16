@@ -1,0 +1,18 @@
+html{
+    width: 100%;
+    height: 100%;
+    margin:0px;
+    padding:10px;
+    font-family: "verdana";
+    font-size: 10pt;
+}
+
+#capcelera {
+	background-color: #FF6600; /*255 102 0*/
+	margin: 1px;
+}
+
+#formulari {
+	background-color: #F6F6EF; /*246 246 239*/
+	/*lletres: 130 130 130 gris -- */
+}

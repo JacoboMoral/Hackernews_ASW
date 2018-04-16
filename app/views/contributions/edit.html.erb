@@ -1,6 +1,22 @@
-<h1>Editing Contribution</h1>
+<html>
 
-<%= render 'form', contribution: @contribution %>
+	<header>
 
-<%= link_to 'Show', @contribution %> |
-<%= link_to 'Back', contributions_path %>
+		<link rel="stylesheet" type="text/css" href="edit.css">
+
+		<div id ="capcelera">
+			<h3>Editing Contribution</h3>
+		</div>
+
+	</header>
+
+	<body>
+		<div id ="formulari">
+			<%= render 'form', contribution: @contribution %>
+
+			<%= link_to 'Show', @contribution %> |
+			<%= link_to 'Back', contributions_path %>
+		</div>
+	</body>
+
+</html>

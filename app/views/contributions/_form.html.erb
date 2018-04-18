@@ -26,6 +26,11 @@
     <%= form.text_area :text, id: :contribution_text %>
   </div>
 
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, id: :contribution_user_id %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

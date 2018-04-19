@@ -7,6 +7,16 @@ class ContributionsController < ApplicationController
     @contributions = Contribution.all
   end
 
+  # GET /contributions/newest
+  # GET /contributions/newest
+  def newest
+    @contributions = Contribution.all.order(created_at: :desc)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @contributions }
+    end
+  end
+
   # GET /contributions/1
   # GET /contributions/1.json
   def show

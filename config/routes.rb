@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :contributions
+  get 'newest' => 'contributions#newest'
+  
   resources :users
-    root 'contributions#index'
+  resources :contributions, path: '/'
+  root 'contributions#newest'
 end

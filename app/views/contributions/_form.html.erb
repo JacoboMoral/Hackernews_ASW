@@ -11,27 +11,49 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :contribution_title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url, id: :contribution_url %>
-  </div>
-
-  <div class="field">
-    <%= form.label :text %>
-    <%= form.text_area :text, id: :contribution_text %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :contribution_user_id %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <table border="0">
+    <tr>
+      <td>
+        <%= form.label :title %>
+      </td>
+      <td>
+        <%= form.text_field :title, id: :contribution_title, size: 50 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.label :url %>
+      </td>
+      <td>
+        <%= form.text_field :url, id: :contribution_url, size: 50 %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><b>or</b></td>
+    </tr>
+    <tr>
+      <td>
+        <%= form.label :text %>
+      </td>
+      <td>
+        <%= form.text_area :text, id: :contribution_text, rows: 4, cols: 49 %>
+      </td>
+    </tr>
+    <!-- TODO: Once we store user in session, is useless -->
+    <tr>
+      <td>
+        <%= form.label :user_id %>
+      </td>
+      <td>
+        <%= form.number_field :user_id, id: :contribution_user_id %>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <%= form.submit %>
+      </td>
+    </tr>
+  </table>
 <% end %>

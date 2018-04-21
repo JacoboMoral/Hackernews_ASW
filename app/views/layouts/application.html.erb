@@ -27,9 +27,9 @@
                 <td style="line-height:12pt; height:10px;">
                 <span class="pagetop">
                   <b class="hnname"><a href="/">Hacker News</a></b>
-                  <a href="newest">new</a>
-                  | <a href="#">ask</a>
-                  | <a href="/submit">submit</a>
+                  <a href="newest" style="<%= @view === 'newest' ? 'color: white;' : nil %>">new</a>
+                  | <a href="#" style="<%= @view === 'ask' ? 'color: white;' : nil %>">ask</a>
+                  | <a href="submit" style="<%= @view === 'submit' ? 'color: white;' : nil %>">submit</a>
                 </span>
                 </td>
                 <td style="text-align:right;padding-right:4px;">

@@ -1,6 +1,11 @@
 class ContributionsController < ApplicationController
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
 
+  VIEWS = {
+    submit: 'submit',
+    newest: 'newest'
+  }.freeze
+
   # GET /contributions
   # GET /contributions.json
   def index
@@ -10,6 +15,7 @@ class ContributionsController < ApplicationController
   # GET /contributions/newest
   # GET /contributions/newest
   def newest
+    @view = VIEWS[:newest]
     @contributions = Contribution.all.order(created_at: :desc)
     respond_to do |format|
       format.html { render :index }
@@ -24,6 +30,7 @@ class ContributionsController < ApplicationController
 
   # GET /contributions/new
   def new
+    @view = VIEWS[:submit]
     @contribution = Contribution.new
   end
 

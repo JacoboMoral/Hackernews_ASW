@@ -18,7 +18,7 @@
               <!-- TODO: Implement filter by site and show only domain name -->
               <span class="sitebit comhead"> (<a href="#"><span class="sitestr"><%= contribution.url %></span></a>)</span></td>
             <% else %>
-              <a href="#" class="storylink"><%= contribution.title %></a>
+              <a href="/<%= contribution.id %>" class="storylink"><%= contribution.title %></a>
               <span class="sitebit comhead"> (<a href="from?site=nirsoft.net"><span class="sitestr">nirsoft.net</span></a>)</span></td>
             <% end %>
         </tr>

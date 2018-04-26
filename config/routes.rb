@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   get 'newest' => 'contributions#newest'
   get 'submit' => 'contributions#new'
-  
+
+  resources :comment
   resources :users
   resources :contributions, path: '/'
   root 'contributions#newest'

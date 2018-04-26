@@ -1,0 +1,6 @@
+<%= form_for([@contribution, @contribution.comments.build]) do |f| %>
+  <%= f.text_area :content, rows: "6", cols: "60" %>
+  <br>
+  <br>
+  <%= f.submit "add comment" %>
+<% end %>

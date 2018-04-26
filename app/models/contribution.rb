@@ -1,5 +1,6 @@
 class Contribution < ApplicationRecord
   belongs_to :user
+  has_many :comments
   validate :text_xor_url
   validate :url_is_valid
 

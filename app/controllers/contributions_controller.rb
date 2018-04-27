@@ -26,6 +26,8 @@ class ContributionsController < ApplicationController
   # GET /contributions/1
   # GET /contributions/1.json
   def show
+      @comment = Comment.new(contribution_id: params[:id])
+      @comments = Comment.where("contribution_id=" + (params[:id])).order("created_at DESC")
   end
 
   # GET /contributions/new

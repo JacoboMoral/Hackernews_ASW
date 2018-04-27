@@ -21,5 +21,9 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  # No es segur, pero no tinc temps per solucionarho abans de dema que marxo
+  # Quan torni ho arreglare
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: postgres://iyrwcngfnssehc:d59b2dcae05229e8ab681350d84212fe42b8f120b1be664cb1a6fd7288cb12bc@ec2-54-243-213-188.compute-1.amazonaws.com:5432/db12crn48g2d91

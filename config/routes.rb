@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'newest' => 'contributions#newest'
   get 'submit' => 'contributions#new'
 
+  resources :reply
   resources :comment, except: [:index, :edit]
   resources :users
   resources :contributions, path: '/'

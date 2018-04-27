@@ -30,6 +30,8 @@ class ContributionsController < ApplicationController
 
   # GET /contributions/new
   def new
+    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
     @view = VIEWS[:submit]
     @contribution = Contribution.new
   end
@@ -41,6 +43,8 @@ class ContributionsController < ApplicationController
   # POST /contributions
   # POST /contributions.json
   def create
+    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
     @contribution = Contribution.new(contribution_params)
 
     respond_to do |format|
@@ -86,6 +90,7 @@ class ContributionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contribution_params
+      params[:contribution][:user_id] = current_user.id
       params.require(:contribution).permit(:title, :url, :text, :user_id)
     end
 end

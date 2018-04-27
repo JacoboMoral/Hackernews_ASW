@@ -27,7 +27,7 @@ td    { font-family:Verdana, Geneva, sans-serif; font-size:10pt; color:#828282; 
 
 input    { font-family:monospace; font-size:10pt; }
 input[type=\"submit\"] { font-family:Verdana, Geneva, sans-serif; }
-textarea { font-family:monospace; font-size:10pt; }
+textarea { font-family:monospace; font-size:10pt; width: 400px; height: 150px;}
 
 a:link    { color:#000000; text-decoration:none; }
 a:visited { color:#828282; text-decoration:none; }

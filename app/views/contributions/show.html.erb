@@ -54,75 +54,55 @@
               <input type="submit" value="add comment"></form>
             </td>
           </tr>
-
-
-
-
-
-
-
           <% @comments.each do |comentari| %>
           <% current_user = nil%>
           <% name = "Hardcoded_user_name" %>
+              <div style="margin-left:10px">
+                  <table>
+                      <tr>
+                          <td>
+                      <% if current_user != nil && current_user.id != comentari.user.id %>
+                          <form action="/comments/<%= comentari.id %>/vote" method="POST"
+                            id="upvote_comment_form">
+                              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                              <% if current_user && !current_user.voted_for?(comentari) %>
+                              <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
+                              <input type="image" name="submit_vote" class="votearrow">
+                              <% elsif !current_user %>
+                              <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
+                              <% end %>
+                          </form>
+                      <% elsif current_user != nil %>
+                          <font color="orange" size="3">*</font>
+                      <% else %>
+                      <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
+                      <% end %>
+                      </td>
+                          <td><a href="#"> <%= name %></a>
 
+                          <% time = (Time.now() - comentari.created_at) %>
 
-                          <div style="margin-left:10px">
-                              <table>
-                                  <tr>
-                                      <td>
-                                  <% if current_user != nil && current_user.id != comentari.user.id %>
-                                      <form action="/comments/<%= comentari.id %>/vote" method="POST"
-                                        id="upvote_comment_form">
-                                          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                                          <% if current_user && !current_user.voted_for?(comentari) %>
-                                          <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
-                                          <input type="image" name="submit_vote" class="votearrow">
-                                          <% elsif !current_user %>
-                                          <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
-                                          <% end %>
-                                      </form>
-                                  <% elsif current_user != nil %>
-                                      <font color="orange" size="3">*</font>
-                                  <% else %>
-                                  <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
-                                  <% end %>
-                                  </td>
-                                      <td><a href="#"> <%= name %></a>
+                          <% if time < 3600 %>
+                              <a href="#" <%= (time/60).round %> minutes ago</a> |
+                          <% end %>
 
-                                      <% time = (Time.now() - comentari.created_at) %>
+                          <% if time >= 3600 && time < 3600*24 %>
+                              <a href="#"><%= (time/3600).round %> hours ago</a> |
+                          <% end %>
 
-                                      <% if time < 3600 %>
-                                          <a href="#" <%= (time/60).round %> minutes ago</a> |
-                                      <% end %>
-
-                                      <% if time >= 3600 && time < 3600*24 %>
-                                          <a href="#"><%= (time/3600).round %> hours ago</a> |
-                                      <% end %>
-
-                                      <% if time >= 3600*24 %>
-                                          <a href="#"><%= (time/(3600*24)).round %> days ago</a> |
-                                      <% end %>
-
-                                  </tr>
-                                  </table>
-                                  <table>
-                                  <tr>
-                                      <td style="color:grey;"> <%= comentari.content %></td>
-                                  </tr>
-                              </table>
-                              <a href="#">reply</a>
-                          </div>
-                          <%end%>
-
-
-
-
-
-
-
-
-
-
+                          <% if time >= 3600*24 %>
+                              <a href="#"><%= (time/(3600*24)).round %> days ago</a> |
+                          <% end %>
+                      </tr>
+                      </table>
+                      <table>
+                      <tr>
+                          <td style="color:grey;"> <%= comentari.content %></td>
+                      </tr>
+                  </table>
+                  <a href="#">reply</a>
+              </div>
+        <%end%>
         </tbody>
       </table>
     </td>

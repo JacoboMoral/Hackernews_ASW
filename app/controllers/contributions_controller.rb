@@ -26,7 +26,7 @@ class ContributionsController < ApplicationController
 
   # GET /contributions/ask
   # GET /contributions/ask
-  def newest
+  def ask
     @view = VIEWS[:ask]
     @contributions = Contribution.all.order(created_at: :desc)
     respond_to do |format|

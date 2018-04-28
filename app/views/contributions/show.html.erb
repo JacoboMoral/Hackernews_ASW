@@ -44,11 +44,26 @@
         <tr>
           <td colspan="2"></td>
           <td>
-            <%= render 'comments/form' %>
+              <div>
+                  <form action="/comments" method="POST" id="comment_content_form">
+                      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                      <% if current_user %>
+                      <input type="hidden" name="comment[user_id]" value=<%=current_user.id %>>
+                      <% else %>
+                      <input type="hidden" name="comment[user_id]" value=<%= %>>
+                      <% end %>
+                      <input type="hidden" name="comment[contribution_id]" value=<%=@contribution.id %>>
+                      <textarea name="comment[content]" value="" form="comment_content_form"
+                                style="min-width:500px;min-height:100px"></textarea>
+                      <br>
+                      <input type="submit" value="add comment">
+                  </form>
+              </div>
+
             </td>
           </tr>
           <% @comments.each do |comment| %>
-          <% current_user = nil%>
+
               <div style="margin-left:10px">
                   <table>
                       <tr>

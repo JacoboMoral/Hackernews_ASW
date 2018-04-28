@@ -28,7 +28,7 @@ class ContributionsController < ApplicationController
   # GET /contributions/ask
   def ask
     @view = VIEWS[:ask]
-    @contributions = Contribution.all.order(created_at: :desc)
+    @contributions = Contribution.find(url: '')
     respond_to do |format|
       format.html { render :index }
       format.json { render json: @contributions }

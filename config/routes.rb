@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy'
 
   get 'newest' => 'contributions#newest'
+  get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
 
 

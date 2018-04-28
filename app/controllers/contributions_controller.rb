@@ -3,6 +3,7 @@ class ContributionsController < ApplicationController
 
   VIEWS = {
     submit: 'submit',
+    ask: 'ask',
     newest: 'newest'
   }.freeze
 
@@ -16,6 +17,17 @@ class ContributionsController < ApplicationController
   # GET /contributions/newest
   def newest
     @view = VIEWS[:newest]
+    @contributions = Contribution.all.order(created_at: :desc)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @contributions }
+    end
+  end
+
+  # GET /contributions/ask
+  # GET /contributions/ask
+  def newest
+    @view = VIEWS[:ask]
     @contributions = Contribution.all.order(created_at: :desc)
     respond_to do |format|
       format.html { render :index }

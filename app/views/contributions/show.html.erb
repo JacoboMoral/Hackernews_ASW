@@ -51,6 +51,7 @@
                       <input type="hidden" name="comment[user_id]" value=<%=current_user.id %>>
                       <% else %>
                       <input type="hidden" name="comment[user_id]" value=<%= %>>
+                      <!-- definir q fer si no està logged -->
                       <% end %>
                       <input type="hidden" name="comment[contribution_id]" value=<%=@contribution.id %>>
                       <textarea name="comment[content]" value="" form="comment_content_form"
@@ -68,38 +69,23 @@
                   <table>
                       <tr>
                           <td>
-                      <% if current_user != nil && current_user.id != comment.user.id %>
-                          <form action="/comments/<%= comment.id %>/vote" method="POST"
-                            id="upvote_comment_form">
-                              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                              <% if current_user && !current_user.voted_for?(comment) %>
-                              <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
-                              <input type="image" name="submit_vote" class="votearrow">
-                              <% elsif !current_user %>
-                              <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
+                              <a href="#"> <%= comment.user.name %></a>
+
+                              <% time = (Time.now() - comment.created_at) %>
+
+                              <% if time < 3600 %>
+                                  <a href="#" <%= (time/60).round %> minutes ago</a> |
                               <% end %>
-                          </form>
-                      <% elsif current_user != nil %>
-                          <font color="orange" size="3">*</font>
-                      <% else %>
-                      <a href="#" id="up_1"><div class="votearrow" title="upvote"></div></a>
-                      <% end %>
-                      </td>
-                          <td><a href="#"> <%= comment.user.name %></a>
 
-                          <% time = (Time.now() - comment.created_at) %>
+                              <% if time >= 3600 && time < 3600*24 %>
+                                  <a href="#"><%= (time/3600).round %> hours ago</a> |
+                              <% end %>
 
-                          <% if time < 3600 %>
-                              <a href="#" <%= (time/60).round %> minutes ago</a> |
-                          <% end %>
+                              <% if time >= 3600*24 %>
+                                  <a href="#"><%= (time/(3600*24)).round %> days ago</a> |
+                              <% end %>
+                          </td>
 
-                          <% if time >= 3600 && time < 3600*24 %>
-                              <a href="#"><%= (time/3600).round %> hours ago</a> |
-                          <% end %>
-
-                          <% if time >= 3600*24 %>
-                              <a href="#"><%= (time/(3600*24)).round %> days ago</a> |
-                          <% end %>
                       </tr>
                       </table>
                       <table>

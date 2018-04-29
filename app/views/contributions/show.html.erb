@@ -72,11 +72,11 @@
                 </tbody>
             </table>
             <% @comments.each do |comment| %>
-                <div class = "comment" style="margin-left:20px; margin-top:10px;font-size:10px">
+                <div class="margin">
                     <table>
                         <tr>
-                            <td style="font-size:11px">
-                                <a href="#"> <%= comment.user.name %></a>
+                            <td>
+                                <a class="commentTitle" href="#"> <%= comment.user.name %></a>
 
                                 <% time = (Time.now() - comment.created_at) %>
 
@@ -115,8 +115,7 @@
                                 <% timeType = "days" %>
                                 <% end %>
 
-                                <a href="#"><%= showTime %> <%= timeType %> ago</a> |
-
+                                <a class="commentTitle" href="#"><%= showTime %> <%= timeType %> ago</a>
                             </td>
                         </tr>
                     </table>
@@ -125,7 +124,7 @@
                             <td style="color:black;"> <%= comment.content %></td>
                         </tr>
                     </table>
-                    <a style="margin-left:20px" href="#">reply</a>
+                    <a style="text-decoration: underline;; margin-left:20px" href="#">reply</a>
                 </div>
             <%end%>
         </td>

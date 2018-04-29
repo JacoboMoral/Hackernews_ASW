@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    if current_user && current_user.id == @user.id
+      redirect_to :controller => 'users', :action => 'edit'
+    end
   end
 
   # GET /users/new

@@ -1,6 +1,24 @@
-<h1>Editing User</h1>
+<table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+  <tr style="height:10px"></tr>
+  <tr>
+    <td>
+      <table>
+        <tbody>
+          <div style="margin-left:20px">
+            <p>
+              <strong>Name:</strong>
+              <%= @user.name %>
+            </p>
 
-<%= render 'form', user: @user %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+            <p>
+              <strong>Created at:</strong>
+              <%= @user.created_at %>
+            </p>
+            <%= render 'form' %>
+          </div>
+          </tbody>
+        </table>
+      <tr class="spacer" style="height:20px"></tr>
+    </td>
+  </tr>
+</table>

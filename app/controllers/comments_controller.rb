@@ -14,12 +14,13 @@ class CommentsController < ApplicationController
 
         if auth_user
             @comment = Comment.new(comment_params)
+            @comment.user = auth_user
             respond_to do |format|
                 if @comment.save
                     format.html { redirect_to @comment.contribution, notice: 'Comment was successfully created.' }
                     format.json { render :show, status: :created, location: @comment }
                 else
-                    format.html { render :new }
+                    format.html { redirect_to @comment.contribution, notice: 'Please add a comment before submitting.' }
                     format.json { render json: @comment.errors, status: :unprocessable_entity }
                 end
             end

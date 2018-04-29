@@ -25,14 +25,19 @@
         <td class="subtext">
           <span class="score" id="score_<%= @contribution.id %>">79 points</span>
            by
-           <a href="user/" class="hnuser"><%= @contribution.user_id %></a>
+           <a href="user/" class="hnuser"><%= @contribution.user.name %></a>
             <span class="age">
               <a href="/<%= @contribution.id %>"><%= @contribution.created_at %></a>
             </span>
             <span id="unv_<%= @contribution.id %>">
             </span>
             |
-            <a href="/<%= @contribution.id %>">51&nbsp;comments</a>
+            <% comments = @contribution.comments.count%>
+            <% show = "comment" %>
+            <% if comments != 1 %>
+                <% show = "comments" %>
+            <% end %>
+            <a href="/<%= @contribution.id %>"><%= comments %> <%= show %></a>
           </td>
         </tr>
       <tr style="height:2px"></tr>
@@ -59,10 +64,14 @@
                       <br>
                       <input type="submit" value="add comment">
                   </form>
+                  <p style= "color: red" id="notice"><%= notice %></p>
+
               </div>
 
             </td>
           </tr>
+
+
           <% @comments.each do |comment| %>
 
               <div style="margin-left:10px">
@@ -73,17 +82,43 @@
 
                               <% time = (Time.now() - comment.created_at) %>
 
-                              <% if time < 3600 %>
-                                  <a href="#" <%= (time/60).round %> minutes ago</a> |
+                              <% if time < 60 %>
+                                  <% showTime = time.round %>
+                                  <% timeType = "seconds" %>
+                              <% end %>
+
+                              <% if time >= 60 && time < 120 %>
+                                  <% showTime = (time/60).round %>
+                                  <% timeType = "minute" %>
+                              <% end %>
+
+                              <% if time >= 120 && time < 3600 %>
+                                  <% showTime = (time/60).round %>
+                                  <% timeType = "minutes" %>
+                              <% end %>
+
+                              <% if time >= 3600 && time < 3600*2 %>
+                                  <% showTime = (time/3600).round %>
+                                  <% timeType = "hour" %>
                               <% end %>
 
                               <% if time >= 3600 && time < 3600*24 %>
-                                  <a href="#"><%= (time/3600).round %> hours ago</a> |
+                                  <% showTime = (time/3600).round %>
+                                  <% timeType = "hours" %>
+                              <% end %>
+
+                              <% if time >= 3600*24 && time < 3600*24*2 %>
+                                  <% showTime = (time/(3600*24)).round %>
+                                  <% timeType = "day" %>
                               <% end %>
 
                               <% if time >= 3600*24 %>
-                                  <a href="#"><%= (time/(3600*24)).round %> days ago</a> |
+                                  <% showTime = (time/(3600*24)).round %>
+                                  <% timeType = "days" %>
                               <% end %>
+
+                              <a href="#"><%= showTime %> <%= timeType %> ago</a> |
+
                           </td>
 
                       </tr>

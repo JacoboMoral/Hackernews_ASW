@@ -22,6 +22,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    if !current_user || (current_user && current_user.id != @user.id)
+      redirect_to :controller => 'users', :action => 'show'
+    end
   end
 
   # POST /users
@@ -72,6 +75,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :user_id)
+      params.require(:user).permit(:name, :email, :user_id, :about)
     end
 end

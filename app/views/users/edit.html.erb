@@ -14,6 +14,21 @@
               <strong>Created at:</strong>
               <%= @user.created_at %>
             </p>
+            
+            <% if current_user && current_user.id == @user.id %>
+
+              <p>
+                <strong>Email:</strong>
+                <%= @user.email %>
+              </p>
+
+              <p>
+                <strong>Personal Api Key:</strong>
+                <%= @user.oauth_token %>
+              </p>
+
+            <% end %>
+
             <%= render 'form' %>
           </div>
           </tbody>

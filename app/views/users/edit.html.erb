@@ -49,7 +49,7 @@
                   <% timeType = "days" %>
               <% end %>
 
-              <span class="age"><a href="users/<%= @user.id %>"><%= showTime%> <%= timeType%> ago</a></span>
+              <span class="age"><a href="/users/<%= @user.id %>"><%= showTime%> <%= timeType%> ago</a></span>
             </p>
 
             <% if current_user && current_user.id == @user.id %>

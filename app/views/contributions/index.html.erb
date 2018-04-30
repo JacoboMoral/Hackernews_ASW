@@ -25,8 +25,53 @@
         <tr>
           <td colspan="2"></td>
           <td class="subtext">
-            <span class="score" id="score_<%= contribution.id %>">137 points</span> by <a href="user?id=valgaze" class="hnuser">valgaze</a>
-            <span class="age"><a href="<%= contribution.id %>">1 hour ago</a></span> <span id="unv_<%= contribution.id %>"></span> | <a href="hide?id=<%= contribution.id %>&amp;goto=news">hide</a> | <a href="<%= contribution.id %>">17&nbsp;comments</a>
+            <span class="score" id="score_<%= contribution.id %>">137 points</span> by <a href="user?id=<%= contribution.user.id %>" class="hnuser"><%= contribution.user.name %></a>
+            <% time = (Time.now() - contribution.created_at) %>
+
+            <% if time < 60 %>
+                <% showTime = time.round %>
+                <% timeType = "seconds" %>
+            <% end %>
+
+            <% if time >= 60 && time < 120 %>
+                <% showTime = (time/60).round %>
+                <% timeType = "minute" %>
+            <% end %>
+
+            <% if time >= 120 && time < 3600 %>
+                <% showTime = (time/60).round %>
+                <% timeType = "minutes" %>
+            <% end %>
+
+            <% if time >= 3600 && time < 3600*2 %>
+                <% showTime = (time/3600).round %>
+                <% timeType = "hour" %>
+            <% end %>
+
+            <% if time >= 3600 && time < 3600*24 %>
+                <% showTime = (time/3600).round %>
+                <% timeType = "hours" %>
+            <% end %>
+
+            <% if time >= 3600*24 && time < 3600*24*2 %>
+                <% showTime = (time/(3600*24)).round %>
+                <% timeType = "day" %>
+            <% end %>
+
+            <% if time >= 3600*24 %>
+                <% showTime = (time/(3600*24)).round %>
+                <% timeType = "days" %>
+            <% end %>
+
+            <span class="age"><a href="<%= contribution.id %>"><%= showTime%> <%= timeType%> ago</a></span>
+
+            <% comments = contribution.comments.count%>
+            <% show = "comment" %>
+            <% if comments != 1 %>
+                <% show = "comments" %>
+            <% end %>
+
+            <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
           </td>
         </tr>
         <tr class="spacer" style="height:5px"></tr>

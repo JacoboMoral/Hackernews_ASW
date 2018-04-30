@@ -25,7 +25,7 @@
         <td class="subtext">
           <span class="score" id="score_<%= @contribution.id %>">79 points</span>
            by
-           <a href="user/" class="hnuser"><%= @contribution.user.name %></a>
+           <a href="users/<%= @contribution.user.id %>" class="hnuser"><%= @contribution.user.name %></a>
             <span class="age">
               <a href="/<%= @contribution.id %>"><%= @contribution.created_at %></a>
             </span>

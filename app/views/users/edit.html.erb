@@ -11,10 +11,47 @@
             </p>
 
             <p>
-              <strong>Created at:</strong>
-              <%= @user.created_at %>
+              <strong>Created:</strong>
+              <% time = (Time.now() - @user.created_at) %>
+
+              <% if time < 60 %>
+                  <% showTime = time.round %>
+                  <% timeType = "seconds" %>
+              <% end %>
+
+              <% if time >= 60 && time < 120 %>
+                  <% showTime = (time/60).round %>
+                  <% timeType = "minute" %>
+              <% end %>
+
+              <% if time >= 120 && time < 3600 %>
+                  <% showTime = (time/60).round %>
+                  <% timeType = "minutes" %>
+              <% end %>
+
+              <% if time >= 3600 && time < 3600*2 %>
+                  <% showTime = (time/3600).round %>
+                  <% timeType = "hour" %>
+              <% end %>
+
+              <% if time >= 3600 && time < 3600*24 %>
+                  <% showTime = (time/3600).round %>
+                  <% timeType = "hours" %>
+              <% end %>
+
+              <% if time >= 3600*24 && time < 3600*24*2 %>
+                  <% showTime = (time/(3600*24)).round %>
+                  <% timeType = "day" %>
+              <% end %>
+
+              <% if time >= 3600*24 %>
+                  <% showTime = (time/(3600*24)).round %>
+                  <% timeType = "days" %>
+              <% end %>
+
+              <span class="age"><a href="users/<%= @user.id %>"><%= showTime%> <%= timeType%> ago</a></span>
             </p>
-            
+
             <% if current_user && current_user.id == @user.id %>
 
               <p>

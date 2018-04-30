@@ -28,6 +28,7 @@
                 <span class="pagetop">
                   <b class="hnname"><a href="/">Hacker News</a></b>
                   <a href="/newest" style="<%= @view === 'newest' ? 'color: white;' : nil %>">new</a>
+                  | <a href="/threads/<%= current_user.id %>" style="<%= @view === 'threads' ? 'color: white;' : nil %>">threads</a>
                   | <a href="/ask" style="<%= @view === 'ask' ? 'color: white;' : nil %>">ask</a>
                   | <a href="/submit" style="<%= @view === 'submit' ? 'color: white;' : nil %>">submit</a>
                 </span>

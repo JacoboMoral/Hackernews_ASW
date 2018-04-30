@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy'
   get 'users' => 'users#edit'
+  get 'threads/:id' => 'comments#threads'
 
   get 'newest' => 'contributions#newest'
   get 'ask' => 'contributions#ask'

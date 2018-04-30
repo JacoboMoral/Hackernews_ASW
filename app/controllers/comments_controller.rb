@@ -29,6 +29,11 @@ class CommentsController < ApplicationController
         end
     end
 
+    def threads
+      @users = User.find(params[:id])
+      @commentsandreplies = Comment.where(user_id: params[:id])
+    end
+
     private
         def comment_params
             params.require(:comment).permit(:content, :user_id, :contribution_id)

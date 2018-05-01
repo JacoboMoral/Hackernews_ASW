@@ -2,7 +2,7 @@
   <tr style="height:10px"></tr>
     <td>
         <% @commentsandreplies.each do |comment| %>
-        <% if comment.user_id == current_user.id%>
+        <% if comment.user_id == @users.id%>
         <table>
             <tbody>
             <tr>

@@ -34,6 +34,27 @@ class CommentsController < ApplicationController
       @commentsandreplies = Comment.where(user_id: params[:id])
     end
 
+    def vote
+        @contribution = Contribution.find(params[:id])
+         begin
+            @contribution.upvote_from current_user
+         rescue Exception
+        end
+
+        redirect_to "/"
+    end
+
+
+    def unvote
+        @contribution = Contribution.find(params[:id])
+         begin
+            @contribution.downvote_from current_user
+         rescue Exception
+        end
+
+        redirect_to "/"
+    end
+
     private
         def comment_params
             params.require(:comment).permit(:content, :user_id, :contribution_id)

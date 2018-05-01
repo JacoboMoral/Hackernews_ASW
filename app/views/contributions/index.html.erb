@@ -7,11 +7,16 @@
           <td align="right" valign="top" class="title"><span class="rank"><%= index %></span></td>
           <td valign="top" class="votelinks">
             <center>
-              <a id='up_<%= contribution.id %>' href='/vote/<%= contribution.id %>'>
-              <form action="/vote/<%= contribution.id %>" method="POST"
-                id="upvote_contribution_form">
-                <div class='votearrow' title='upvote'></div>
-              </a>
+
+              <% if current_user != nil %>
+                  <a id='up_<%= contribution.id %>' href='/vote/<%= contribution.id %>'>
+                  <form action="/vote/<%= contribution.id %>" method="POST"
+                    id="upvote_contribution_form">
+                    <div class='votearrow' title='upvote'></div>
+                  </a>
+              <% else %>
+                <font color="orange" size="3">*</font>
+              <%end%>
             </center>
           </td>
           <td class="title">
@@ -27,7 +32,7 @@
         <tr>
           <td colspan="2"></td>
           <td class="subtext">
-            <span class="score" id="score_<%= contribution.id %>"> <%= contribution.votes_for.size %> points</span> by
+            <span class="score" id="score_<%= contribution.id %>"> <%= contribution.get_upvotes.size %> points</span> by
             <a href="users/<%= contribution.user.id %>" class="hnuser"><%= contribution.user.name %></a>
             <% time = (Time.now() - contribution.created_at) %>
 
@@ -75,6 +80,11 @@
             <% end %>
 
             <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
+            <% if current_user && current_user.upvotes(contribution) %>
+              | <a id="unvote" href= '/unvote/<%= contribution.id %>'>  unvote
+              <form action ="/unvote/<%= contribution.id %>" method="POST"
+                      id="downvote_contribution_form">
+            <%end%>
           </td>
         </tr>
         <tr class="spacer" style="height:5px"></tr>

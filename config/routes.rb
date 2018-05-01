@@ -9,12 +9,21 @@ Rails.application.routes.draw do
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
 
-  get 'vote/:id' => 'contributions#vote'
+  post '/vote/:id' => 'contributions#vote'
+  post '/unvote/:id' => 'contributions#unvote'
+  post '/vote/:id' => 'comments#vote'
+  post '/unvote/:id' => 'comments#unvote'
+
+  get '/vote/:id' => 'contributions#vote'
+  get '/unvote/:id' => 'contributions#unvote'
+  get '/vote/:id' => 'comments#vote'
+  get '/unvote/:id' => 'comments#unvote'
+  
 
 
   resources :reply
   resources :comments, only: :create
   resources :users
-  resources :contributions, path: '/'
+  resources :contributions, path: '/' 
   root 'contributions#newest'
 end

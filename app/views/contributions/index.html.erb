@@ -7,7 +7,9 @@
           <td align="right" valign="top" class="title"><span class="rank"><%= index %></span></td>
           <td valign="top" class="votelinks">
             <center>
-              <a id='up_<%= contribution.id %>' href='vote?id=<%= contribution.id %>&amp;how=up&amp;goto=news'>
+              <a id='up_<%= contribution.id %>' href='/vote/<%= contribution.id %>'>
+              <form action="/vote/<%= contribution.id %>" method="POST"
+                id="upvote_contribution_form">
                 <div class='votearrow' title='upvote'></div>
               </a>
             </center>
@@ -25,7 +27,7 @@
         <tr>
           <td colspan="2"></td>
           <td class="subtext">
-            <span class="score" id="score_<%= contribution.id %>">137 points</span> by
+            <span class="score" id="score_<%= contribution.id %>"> <%= contribution.votes_for.size %> points</span> by
             <a href="users/<%= contribution.user.id %>" class="hnuser"><%= contribution.user.name %></a>
             <% time = (Time.now() - contribution.created_at) %>
 

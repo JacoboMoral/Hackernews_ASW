@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
 
+  get 'vote/:id' => 'contributions#vote'
+
 
   resources :reply
   resources :comments, only: :create

@@ -86,6 +86,16 @@ class ContributionsController < ApplicationController
     end
   end
 
+  def vote
+    @contribution = Contribution.find(params[:id])
+     begin
+      current_user.vote_for(@contribution)
+     rescue Exception
+    end
+    redirect_to "/"
+  end
+
+
   # DELETE /contributions/1
   # DELETE /contributions/1.json
   def destroy

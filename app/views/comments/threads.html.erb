@@ -17,7 +17,7 @@
                 <td class="spacer" style="width:5px"></td>
                 <td class="text">
                     <font color="grey">
-                        <a style="text-decoration:none;" href="/users/<%= comment.user_id %>"><%= current_user.name%></a>
+                        <a style="text-decoration:none;" href="/users/<%= comment.user_id %>"><%= @users.name%></a>
 
                         <% time = (Time.now() - comment.created_at) %>
 

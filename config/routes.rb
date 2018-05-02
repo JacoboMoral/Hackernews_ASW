@@ -10,9 +10,23 @@ Rails.application.routes.draw do
   get 'submit' => 'contributions#new'
   get 'comments/:id/' => 'comments#newReply'
 
-  resources :replies
+
+  post 'contributions/vote/:id' => 'contributions#vote'
+  post 'contributions/unvote/:id' => 'contributions#unvote'
+  post 'comments/vote/:id' => 'comments#vote'
+  post 'comments/unvote/:id' => 'comments#unvote'
+
+  get 'contributions/vote/:id' => 'contributions#vote'
+  get 'contributions/unvote/:id' => 'contributions#unvote'
+  get 'comments/vote/:id' => 'comments#vote'
+  get 'comments/unvote/:id' => 'comments#unvote'
+
+
+
+  resources :reply
   resources :comments, only: :create
   resources :users
   resources :contributions, path: '/'
   root 'contributions#newest'
+
 end

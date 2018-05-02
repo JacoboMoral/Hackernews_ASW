@@ -24,7 +24,7 @@
                         <td colspan="2">
                         </td>
                         <td class="subtext">
-                            <span class="score" id="score_<%= @contribution.id %>">79 points</span>
+                            <span class="score" id="score_<%= @contribution.id %>"> <%= @contribution.get_upvotes.size %> points</span>
                             by
                             <%if current_user != nil && current_user.id == @contribution.user.id%>
                             <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @contribution %>"> <%= @contribution.user.name %></a>
@@ -126,12 +126,30 @@
 
                             <a class="commentTitle" href="/comments/<%= comment.id %>"><%= showTime %> <%= timeType %> ago</a>
                         </td>
+
+                        <td>
+
+                            <span class="subtext" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
+
+                            <a class="commentTitle" href= 'comments/vote/<%= comment.id %>'> vote
+                              <form action ="/unvote/<%= comment.id %>" method="POST"
+                                      id="downvote_comment_form">
+                            </a>
+                            <a class="commentTitle" href= 'comments/unvote/<%= comment.id %>'> unvote
+                              <form action ="/unvote/<%= comment.id %>" method="POST"
+                                      id="downvote_comment_form">
+                            </a>
+
+                        </td>
+
                     </tr>
                 </table>
                 <table style="margin-left:20px; margin-bottom: 3px;">
                     <tr>
                         <td style="color:black;"> <%= comment.content %></td>
+
                     </tr>
+
                 </table>
                 <a style="text-decoration: underline; margin-left:20px" href="/comments/<%= comment.id %>">reply</a>
             </div>

@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get 'newest' => 'contributions#newest'
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
-  get 'comments/:id/' => 'comments#newReply'
+  get 'comments/:id' => 'comments#newReply'
 
-  resources :replies, only: :create
+  resources :replies
   resources :comments, only: :create
   resources :users
   resources :contributions, path: '/'

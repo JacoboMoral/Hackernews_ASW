@@ -1,10 +1,5 @@
 class RepliesController < ApplicationController
 
-  # GET /replies/new
-  def new
-    @reply = Reply.new
-  end
-
   def create
     auth_user = current_user
     begin
@@ -26,7 +21,7 @@ class RepliesController < ApplicationController
            format.html { redirect_to @reply.comment.contribution, notice: 'Reply was successfully created.' }
            format.json { render :show, status: :created, location: @reply }
         else
-          format.html { redirect_to '/comments/' + (@reply.comment.id).to_s + '/newReply', notice: 'Please add a comment before submitting.' }
+          format.html { redirect_to '/comments/' + (@reply.comment.id).to_s, notice: 'Please add a comment before submitting.' }
           format.json { render json: @reply.errors, status: :unprocessable_entity }
         end
        end

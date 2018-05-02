@@ -70,7 +70,11 @@
                                     <br>
                                     <input type="submit" value="add comment">
                                 </form>
+                                <% if notice != nil && (notice.include? "successfully") %>
+                                <p style= "color: green" id="notice"><%= notice %></p>
+                                <%else%>
                                 <p style= "color: red" id="notice"><%= notice %></p>
+                                <%end%>
                             </div>
                         </td>
                     </tr>

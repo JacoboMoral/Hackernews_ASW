@@ -26,7 +26,13 @@
           <td colspan="2"></td>
           <td class="subtext">
             <span class="score" id="score_<%= contribution.id %>">137 points</span> by
-            <a href="users/<%= contribution.user.id %>" class="hnuser"><%= contribution.user.name %></a>
+
+
+            <%if current_user != nil && current_user.id == contribution.user.id%>
+            <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= contribution.user.id %>"> <%= contribution.user.name %></a>
+            <%else%>
+            <a class="commentTitle" href="/users/<%= contribution.user.id %>"> <%= contribution.user.name %></a>
+            <%end%>
             <% time = (Time.now() - contribution.created_at) %>
 
             <% if time < 60 %>
@@ -79,13 +85,6 @@
         <% index += 1 %>
       <% end %>
 
-      <!-- more button -->
-      <!-- TODO: Do we want a pagination of contributions? -->
-      <!--<tr class="morespace" style="height:10px"></tr>-->
-      <!--<tr>-->
-        <!--<td colspan="2"></td>-->
-        <!--<td class="title"><a href="news?p=2" class="morelink" rel="nofollow">More</a></td>-->
-      <!--</tr>-->
     </table>
   </td>
 </tr>

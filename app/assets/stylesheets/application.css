@@ -171,7 +171,6 @@ pre { max-width: 900px; }
 
 .reply{
     margin-left: 50px;
-    margin-top: 10px;
 }
 
 .margin:nth-child(2){ /* first child */
@@ -180,6 +179,7 @@ pre { max-width: 900px; }
 .margin:last-child{
     margin-bottom:50px;
 }
+
 
 @media only screen and (min-width : 300px) and (max-width : 389px) {
     .comment { max-width: 270px; overflow: auto }

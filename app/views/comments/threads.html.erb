@@ -9,9 +9,9 @@
                 <td class="spacer" style="width:2px"></td>
                 <td valign="top" class="votelinks">
                   <center>
-                    <a id='up_<%= comment.id %>' href='vote?id=<%= comment.id %>&amp;how=up&amp;goto=news'>
-                      <div class='votearrow' title='upvote'></div>
-                    </a>
+                    <td>
+                        <font color="grey" size="3">*</font>
+                    </td>
                   </center>
                 </td>
                 <td class="spacer" style="width:5px"></td>
@@ -61,19 +61,15 @@
                             <% timeType = "days" %>
                         <% end %>
 
-                        <span class="age"><a href="#"><%= showTime%> <%= timeType%> ago</a> |</span>
+                        <span class="age"><a href="#"><%= showTime%> <%= timeType%> ago</a> </span>
 
                         <% if comment.kind_of? Comment %>
-                            <a style="text-decoration:none;" href="/<%= comment.contribution_id %>">parent</a> |
-                            on:
-                            <a style="text-decoration:none;" href="/<%= comment.contribution_id %>"> <%= comment.contribution.title %></a>
-                        <% end %>
-                        <% if comment.kind_of? Reply %>
-                            <a style="text-decoration:none;" href="/comments/<%= comment.comment_id %>">parent</a> |
-                            <a style="text-decoration:none;" href="/replies/<%= comment.id %>/edit">edit</a> |
-                            on: <%= comment.comment.content %>
-                        <% end %>
-
+                            on  <a style="text-decoration:none;" href="/<%= comment.contribution_id %>"> <%= comment.contribution.title %></a>
+                          <% end %>
+                          <% if comment.kind_of? Reply %>
+                              | <a style="text-decoration:none;" href="/comments/<%= comment.comment_id %>">parent</a> |
+                              on <a style="text-decoration:none;" href="/<%= comment.comment.contribution_id %>"> <%= comment.comment.contribution.title %> </a>
+                          <% end %>
                     </font>
                 </td>
             </tr>

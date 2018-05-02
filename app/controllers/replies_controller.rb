@@ -51,7 +51,6 @@ class RepliesController < ApplicationController
     end
   end
 
-
   # PATCH/PUT /replies/1
   # PATCH/PUT /replies/1.json
   def update

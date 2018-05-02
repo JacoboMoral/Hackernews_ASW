@@ -35,8 +35,8 @@ class CommentsController < ApplicationController
     end
 
     def threads
-      @users = User.find(params[:id])
-      @commentsandreplies = Comment.where(user_id: params[:id])
+      @user = User.find(params[:id])
+      @commentsandreplies = (Comment.where(user_id: params[:id]) + Reply.where(user_id: params[:id])).sort_by(&:created_at).reverse
     end
 
     private

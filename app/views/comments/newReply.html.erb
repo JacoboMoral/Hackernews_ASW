@@ -89,7 +89,12 @@
             <table>
                 <tr>
                     <td>
+
+                        <%if current_user != nil && current_user.id == reply.user.id%>
+                        <span style="margin-left:20px;color:orange;">*&nbsp</span><a style="color:green;margin-left:0px;" class="reply commentTitle" href="/users/<%= @comment %>"> <%= @comment.user.name %></a>
+                        <%else%>
                         <a class="reply commentTitle" href="/users/<%= reply.user.id %>"> <%= reply.user.name %></a>
+                        <%end%>
 
                         <% time = (Time.now() - reply.created_at) %>
 

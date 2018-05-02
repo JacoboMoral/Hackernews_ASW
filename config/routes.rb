@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'submit' => 'contributions#new'
   get 'comments/:id/' => 'comments#newReply'
 
-  resources :replies
+  resources :replies, only: :create
   resources :comments, only: :create
   resources :users
   resources :contributions, path: '/'

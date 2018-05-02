@@ -35,9 +35,9 @@ class CommentsController < ApplicationController
     end
 
     def vote
-        @contribution = Contribution.find(params[:id])
+        @comment = Comment.find(params[:id])
          begin
-            @contribution.upvote_from current_user
+            @comment.upvote_from current_user
          rescue Exception
         end
 
@@ -46,9 +46,9 @@ class CommentsController < ApplicationController
 
 
     def unvote
-        @contribution = Contribution.find(params[:id])
+        @comment = Comment.find(params[:id])
          begin
-            @contribution.downvote_from current_user
+            @comment.downvote_from current_user
          rescue Exception
         end
 

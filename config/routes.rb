@@ -9,15 +9,15 @@ Rails.application.routes.draw do
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
 
-  post '/vote/:id' => 'contributions#vote'
-  post '/unvote/:id' => 'contributions#unvote'
-  post '/vote/:id' => 'comments#vote'
-  post '/unvote/:id' => 'comments#unvote'
+  post 'contributions/vote/:id' => 'contributions#vote'
+  post 'contributions/unvote/:id' => 'contributions#unvote'
+  post 'comments/vote/:id' => 'comments#vote'
+  post 'comments/unvote/:id' => 'comments#unvote'
 
-  get '/vote/:id' => 'contributions#vote'
-  get '/unvote/:id' => 'contributions#unvote'
-  get '/vote/:id' => 'comments#vote'
-  get '/unvote/:id' => 'comments#unvote'
+  get 'contributions/vote/:id' => 'contributions#vote'
+  get 'contributions/unvote/:id' => 'contributions#unvote'
+  get 'comments/vote/:id' => 'comments#vote'
+  get 'comments/unvote/:id' => 'comments#unvote'
   
 
 

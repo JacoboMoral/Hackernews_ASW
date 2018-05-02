@@ -121,7 +121,23 @@
 
                           </td>
 
+                          <td>
+
+                            <span class="score" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
+                            
+                            <a id="vote" href= 'comments/vote/<%= comment.id %>'> vote
+                              <form action ="/unvote/<%= comment.id %>" method="POST"
+                                      id="downvote_comment_form">
+                            </a>
+
+                            <a id="unvote" href= 'comments/unvote/<%= comment.id %>'> unvote
+                              <form action ="/unvote/<%= comment.id %>" method="POST"
+                                      id="downvote_comment_form">
+                            </a>
+
+                          </td>
                       </tr>
+                          
                       </table>
                       <table>
                       <tr>

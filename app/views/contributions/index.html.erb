@@ -9,7 +9,7 @@
             <center>
 
               <% if current_user != nil %>
-                  <a id='up_<%= contribution.id %>' href='/vote/<%= contribution.id %>'>
+                  <a id='up_<%= contribution.id %>' href='contributions/vote/<%= contribution.id %>'>
                   <form action="/vote/<%= contribution.id %>" method="POST"
                     id="upvote_contribution_form">
                     <div class='votearrow' title='upvote'></div>
@@ -81,9 +81,10 @@
 
             <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
             <% if current_user && current_user.upvotes(contribution) %>
-              | <a id="unvote" href= '/unvote/<%= contribution.id %>'>  unvote
+              | <a id="unvote" href= 'contributions/unvote/<%= contribution.id %>'>  unvote
               <form action ="/unvote/<%= contribution.id %>" method="POST"
                       id="downvote_contribution_form">
+              </a>
             <%end%>
           </td>
         </tr>

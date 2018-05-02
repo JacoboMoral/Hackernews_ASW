@@ -44,7 +44,8 @@
                     <tr style="height:2px"></tr>
                     <tr>
                         <td colspan="2"></td>
-                        <td> <%= @contribution.text %> </p></td>
+                        <td> <%= @contribution.text %></td>
+                    </tr>
                     </tr>
                     <tr style="height:10px"></tr>
                     <tr>
@@ -119,18 +120,9 @@
                         </td>
 
                         <td>
-
                             <span class="subtext" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
-
-                            <a class="commentTitle" href= 'comments/vote/<%= comment.id %>'> vote
-                              <form action ="/unvote/<%= comment.id %>" method="POST"
-                                      id="downvote_comment_form">
-                            </a>
-                            <a class="commentTitle" href= 'comments/unvote/<%= comment.id %>'> unvote
-                              <form action ="/unvote/<%= comment.id %>" method="POST"
-                                      id="downvote_comment_form">
-                            </a>
-
+                            <a class="commentTitle" href= 'comments/<%= comment.id %>/vote'> vote</a>
+                            <a class="commentTitle" href= 'comments/<%= comment.id %>/unvote'> unvote</a>
                         </td>
 
                     </tr>

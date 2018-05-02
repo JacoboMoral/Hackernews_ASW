@@ -24,7 +24,7 @@
                         <td colspan="2">
                         </td>
                         <td class="subtext">
-                            <span class="score" id="score_<%= @contribution.id %>">79 points</span>
+                            <span class="score" id="score_<%= @contribution.id %>"> <%= @contribution.get_upvotes.size %> points</span>
                             by
                             <a href="users/<%= @contribution.user.id %>" class="hnuser"><%= @contribution.user.name %></a>
                             <span class="age">
@@ -120,14 +120,13 @@
 
                         <td>
 
-                            <span class="score" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
+                            <span class="subtext" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
 
-                            
-                            <a id="vote" href= 'comments/vote/<%= comment.id %>'> vote
+                            <a class="commentTitle" href= 'comments/vote/<%= comment.id %>'> vote
                               <form action ="/unvote/<%= comment.id %>" method="POST"
                                       id="downvote_comment_form">
                             </a>
-                            <a id="unvote" href= 'comments/unvote/<%= comment.id %>'> unvote
+                            <a class="commentTitle" href= 'comments/unvote/<%= comment.id %>'> unvote
                               <form action ="/unvote/<%= comment.id %>" method="POST"
                                       id="downvote_comment_form">
                             </a>

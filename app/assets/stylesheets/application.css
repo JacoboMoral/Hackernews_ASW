@@ -153,6 +153,28 @@ and (max-width : 750px) {
 .comment { max-width: 1215px; overflow: auto }
 pre { max-width: 900px; }
 
+.commentTitle {
+    font-size:11px;
+    text-decoration:none;
+}
+
+.commentTitle:hover {
+    text-decoration:underline;
+}
+
+.margin{
+    margin-left:20px;
+    margin-top:10px;
+    font-size:10px;
+}
+
+.margin:nth-child(2){ /* first child */
+    margin-top:30px;
+}
+.margin:last-child{
+    margin-bottom:50px;
+}
+
 @media only screen and (min-width : 300px) and (max-width : 389px) {
     .comment { max-width: 270px; overflow: auto }
     pre { max-width: 200px; }

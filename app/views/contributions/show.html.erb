@@ -1,10 +1,132 @@
 <table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
-<tr>
-  <td>
-    <table class="fatitem" border="0">
-      <tbody><tr class="athing" id="<%= @contribution.id %>">
-        <td align="right" valign="top" class="title">
-          <span class="rank"></span>
+    <tr>
+        <td>
+            <table class="fatitem" border="0">
+                <tbody>
+                    <tr class="athing" id="<%= @contribution.id %>">
+                        <td align="right" valign="top" class="title">
+                            <span class="rank"></span>
+                        </td>
+                        <td valign="top" class="votelinks">
+                            <center>
+                                <a id="up_<%= @contribution.id %>">
+                                    <div class="votearrow" title="upvote">
+                                    </div>
+                                </a>
+                            </center>
+                        </td>
+                        <td class="title">
+                            <a href="/<%= @contribution.id %>" class="storylink"> <%= @contribution.title %>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td class="subtext">
+                            <span class="score" id="score_<%= @contribution.id %>">79 points</span>
+                            by
+                            <a href="user/" class="hnuser"><%= @contribution.user.name %></a>
+                            <span class="age">
+                                <a href="/<%= @contribution.id %>"><%= @contribution.created_at %></a>
+                            </span>
+                            <span id="unv_<%= @contribution.id %>">
+                            </span>
+                            |
+                            <% comments = @contribution.comments.count%>
+                            <% show = "comment" %>
+                            <% if comments != 1 %>
+                            <% show = "comments" %>
+                            <% end %>
+                            <a href="/<%= @contribution.id %>"><%= comments %> <%= show %></a>
+                        </td>
+                    </tr>
+                    <tr style="height:2px"></tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td> <%= @contribution.text %> </p></td>
+                    </tr>
+                    <tr style="height:10px"></tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>
+                            <div>
+                                <form action="/comments" method="POST" id="comment_content_form">
+                                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                                    <% if current_user %>
+                                    <input type="hidden" name="comment[user_id]" value=<%=current_user.id %>>
+                                    <% else %>
+                                    <input type="hidden" name="comment[user_id]" value=<%= %>>
+                                    <!-- definir q fer si no està logged -->
+                                    <% end %>
+                                    <input type="hidden" name="comment[contribution_id]" value=<%=@contribution.id %>>
+                                    <textarea name="comment[content]" value="" form="comment_content_form"
+                                    style="min-width:500px;min-height:100px"></textarea>
+                                    <br>
+                                    <input type="submit" value="add comment">
+                                </form>
+                                <p style= "color: red" id="notice"><%= notice %></p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <% @comments.each do |comment| %>
+                <div class="margin">
+                    <table>
+                        <tr>
+                            <td>
+                                <a class="commentTitle" href="#"> <%= comment.user.name %></a>
+
+                                <% time = (Time.now() - comment.created_at) %>
+
+                                <% if time < 60 %>
+                                <% showTime = time.round %>
+                                <% timeType = "seconds" %>
+                                <% end %>
+
+                                <% if time >= 60 && time < 120 %>
+                                <% showTime = (time/60).round %>
+                                <% timeType = "minute" %>
+                                <% end %>
+
+                                <% if time >= 120 && time < 3600 %>
+                                <% showTime = (time/60).round %>
+                                <% timeType = "minutes" %>
+                                <% end %>
+
+                                <% if time >= 3600 && time < 3600*2 %>
+                                <% showTime = (time/3600).round %>
+                                <% timeType = "hour" %>
+                                <% end %>
+
+                                <% if time >= 3600 && time < 3600*24 %>
+                                <% showTime = (time/3600).round %>
+                                <% timeType = "hours" %>
+                                <% end %>
+
+                                <% if time >= 3600*24 && time < 3600*24*2 %>
+                                <% showTime = (time/(3600*24)).round %>
+                                <% timeType = "day" %>
+                                <% end %>
+
+                                <% if time >= 3600*24 %>
+                                <% showTime = (time/(3600*24)).round %>
+                                <% timeType = "days" %>
+                                <% end %>
+
+                                <a class="commentTitle" href="#"><%= showTime %> <%= timeType %> ago</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="margin-left:20px">
+                        <tr>
+                            <td style="color:black;"> <%= comment.content %></td>
+                        </tr>
+                    </table>
+                    <a style="text-decoration: underline;; margin-left:20px" href="#">reply</a>
+                </div>
+            <%end%>
         </td>
         <td valign="top" class="votelinks">
           <center>

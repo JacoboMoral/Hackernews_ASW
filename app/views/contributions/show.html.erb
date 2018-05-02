@@ -27,7 +27,7 @@
                             <span class="score" id="score_<%= @contribution.id %>"> <%= @contribution.get_upvotes.size %> points</span>
                             by
                             <%if current_user != nil && current_user.id == @contribution.user.id%>
-                            <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @contribution %>"> <%= @contribution.user.name %></a>
+                            <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @contribution.user.id %>"> <%= @contribution.user.name %></a>
                             <%else%>
                             <a class="commentTitle" href="/users/<%= @contribution.user.id %>"> <%= @contribution.user.name %></a>
                             <%end%>

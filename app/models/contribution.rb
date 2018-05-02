@@ -1,4 +1,6 @@
 class Contribution < ApplicationRecord
+  acts_as_votable
+  
   belongs_to :user
   has_many :comments
   validate :text_xor_url

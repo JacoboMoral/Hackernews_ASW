@@ -39,6 +39,32 @@ class CommentsController < ApplicationController
       @commentsandreplies = (Comment.where(user_id: params[:id]) + Reply.where(user_id: params[:id])).sort_by(&:created_at).reverse
     end
 
+
+    def vote
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.liked_by current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
+    end
+
+
+    def unvote
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.downvote_from current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
+    end
+
     private
         def comment_params
             params.require(:comment).permit(:content, :user_id, :contribution_id)

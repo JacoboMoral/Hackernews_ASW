@@ -7,9 +7,11 @@
           <td align="right" valign="top" class="title"><span class="rank"><%= index %></span></td>
           <td valign="top" class="votelinks">
             <center>
-              <a id='up_<%= contribution.id %>' href='vote?id=<%= contribution.id %>&amp;how=up&amp;goto=news'>
-                <div class='votearrow' title='upvote'></div>
-              </a>
+              <% if current_user != nil %>
+                  <a id='up_<%= contribution.id %>' href='contributions/<%= contribution.id %>/vote' class="<%= current_user.voted_up_on?(contribution) ? 'nosee' : nil %>">
+                    <div class='votearrow' title='upvote'></div>
+                  </a>
+              <%end%>
             </center>
           </td>
           <td class="title">
@@ -25,7 +27,7 @@
         <tr>
           <td colspan="2"></td>
           <td class="subtext">
-            <span class="score" id="score_<%= contribution.id %>">137 points</span> by
+            <span class="score" id="score_<%= contribution.id %>"> <%= contribution.get_upvotes.size %> points</span> by
 
 
             <%if current_user != nil && current_user.id == contribution.user.id%>
@@ -33,6 +35,7 @@
             <%else%>
             <a class="commentTitle" href="/users/<%= contribution.user.id %>"> <%= contribution.user.name %></a>
             <%end%>
+
             <% time = (Time.now() - contribution.created_at) %>
 
             <% if time < 60 %>
@@ -79,6 +82,9 @@
             <% end %>
 
             <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
+            <% if current_user && current_user.voted_up_on?(contribution) %>
+              | <a id="unvote" href= 'contributions/<%= contribution.id %>/unvote'>  unvote</a>
+            <%end%>
           </td>
         </tr>
         <tr class="spacer" style="height:5px"></tr>

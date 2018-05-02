@@ -24,6 +24,7 @@ class UsersController < ApplicationController
   def edit
     if !current_user || (current_user && current_user.id != @user.id)
       redirect_to :controller => 'users', :action => 'show'
+      
     end
   end
 

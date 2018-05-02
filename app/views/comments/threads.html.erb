@@ -2,7 +2,7 @@
   <tr style="height:10px"></tr>
     <td>
         <% @commentsandreplies.each do |comment| %>
-        <% if comment.user_id == @users.id%>
+        <% if comment.user_id == @user.id%>
         <table>
             <tbody>
             <tr>
@@ -17,21 +17,51 @@
                 <td class="spacer" style="width:5px"></td>
                 <td class="text">
                     <font color="grey">
-                        <a style="text-decoration:none;" href="/users/<%= comment.user_id %>"><%= @users.name%></a>
+
+                        <%if current_user != nil && current_user.id == @user.id%>
+                        <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @user.id %>"> <%= @user.name %></a>
+                        <%else%>
+                        <a class="commentTitle" href="/users/<%= @user.id %>"> <%= @user.name %></a>
+                        <%end%>
 
                         <% time = (Time.now() - comment.created_at) %>
 
-                        <% if time < 3600 %>
-                            <%= (time/60).round %> minutes ago |
+                        <% if time < 60 %>
+                            <% showTime = time.round %>
+                            <% timeType = "seconds" %>
+                        <% end %>
+
+                        <% if time >= 60 && time < 120 %>
+                            <% showTime = (time/60).round %>
+                            <% timeType = "minute" %>
+                        <% end %>
+
+                        <% if time >= 120 && time < 3600 %>
+                            <% showTime = (time/60).round %>
+                            <% timeType = "minutes" %>
+                        <% end %>
+
+                        <% if time >= 3600 && time < 3600*2 %>
+                            <% showTime = (time/3600).round %>
+                            <% timeType = "hour" %>
                         <% end %>
 
                         <% if time >= 3600 && time < 3600*24 %>
-                            <%= (time/3600).round %> hours ago |
+                            <% showTime = (time/3600).round %>
+                            <% timeType = "hours" %>
+                        <% end %>
+
+                        <% if time >= 3600*24 && time < 3600*24*2 %>
+                            <% showTime = (time/(3600*24)).round %>
+                            <% timeType = "day" %>
                         <% end %>
 
                         <% if time >= 3600*24 %>
-                            <%= (time/(3600*24)).round %> days ago |
+                            <% showTime = (time/(3600*24)).round %>
+                            <% timeType = "days" %>
                         <% end %>
+
+                        <span class="age"><a href="#"><%= showTime%> <%= timeType%> ago</a> |</span>
 
                         <% if comment.kind_of? Comment %>
                             <a style="text-decoration:none;" href="/<%= comment.contribution_id %>">parent</a> |

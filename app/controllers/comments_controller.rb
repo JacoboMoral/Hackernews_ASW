@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
 
     def threads
       @users = User.find(params[:id])
-      @commentsandreplies = Comment.where(user_id: params[:id])
+      @commentsandreplies = Comment.where(user_id: params[:id]) | Reply.where(user_id: params[:id])
     end
 
     private

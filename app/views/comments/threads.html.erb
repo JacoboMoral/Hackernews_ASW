@@ -9,9 +9,9 @@
                 <td class="spacer" style="width:2px"></td>
                 <td valign="top" class="votelinks">
                   <center>
-                    <a id='up_<%= comment.id %>' href='vote?id=<%= comment.id %>&amp;how=up&amp;goto=news'>
-                      <div class='votearrow' title='upvote'></div>
-                    </a>
+                    <td>
+                        <font color="grey" size="3">*</font>
+                    </td>
                   </center>
                 </td>
                 <td class="spacer" style="width:5px"></td>
@@ -22,26 +22,23 @@
                         <% time = (Time.now() - comment.created_at) %>
 
                         <% if time < 3600 %>
-                            <%= (time/60).round %> minutes ago |
+                            <%= (time/60).round %> minutes ago
                         <% end %>
 
                         <% if time >= 3600 && time < 3600*24 %>
-                            <%= (time/3600).round %> hours ago |
+                            <%= (time/3600).round %> hours ago
                         <% end %>
 
                         <% if time >= 3600*24 %>
-                            <%= (time/(3600*24)).round %> days ago |
+                            <%= (time/(3600*24)).round %> days ago
                         <% end %>
 
                         <% if comment.kind_of? Comment %>
-                            <a style="text-decoration:none;" href="/<%= comment.contribution_id %>">parent</a> |
-                            on:
-                            <a style="text-decoration:none;" href="/<%= comment.contribution_id %>"> <%= comment.contribution.title %></a>
+                          on  <a style="text-decoration:none;" href="/<%= comment.contribution_id %>"> <%= comment.contribution.title %></a>
                         <% end %>
                         <% if comment.kind_of? Reply %>
-                            <a style="text-decoration:none;" href="/comments/<%= comment.comment_id %>/new_reply">parent</a> |
-                            <a style="text-decoration:none;" href="/replies/<%= comment.id %>/edit">edit</a> |
-                            on: <%= comment.comment.content %>
+                            | <a style="text-decoration:none;" href="/comments/<%= comment.comment_id %>">parent</a> |
+                            on: <%= comment.comment.contribution.title %>
                         <% end %>
 
                     </font>

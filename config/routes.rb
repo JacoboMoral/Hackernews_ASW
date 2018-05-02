@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'newest' => 'contributions#newest'
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
-
+  get 'comments/:id/' => 'comments#newReply'
 
   resources :replies
   resources :comments, only: :create

@@ -1,7 +1,12 @@
 class CommentsController < ApplicationController
 
-    def create
 
+    def newReply
+        @comment = Comment.find(params[:id])
+        @replies = Reply.where("comment_id=?",@comment.id).order("created_at DESC")
+    end
+
+    def create
         auth_user = current_user
         begin
           tmp = User.where("oauth_token=?", request.headers["HTTP_API_KEY"])[0]

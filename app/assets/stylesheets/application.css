@@ -166,6 +166,12 @@ pre { max-width: 900px; }
     margin-left:20px;
     margin-top:10px;
     font-size:10px;
+    margin-bottom:10px;
+}
+
+.reply{
+    margin-left: 50px;
+    margin-top: 10px;
 }
 
 .margin:nth-child(2){ /* first child */

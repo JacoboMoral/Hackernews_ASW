@@ -119,63 +119,70 @@
                         </td>
                     </tr>
                 </table>
-                <table style="margin-left:20px">
+                <table style="margin-left:20px; margin-bottom: 3px;">
                     <tr>
                         <td style="color:black;"> <%= comment.content %></td>
                     </tr>
                 </table>
-                <a style="text-decoration: underline;; margin-left:20px" href="#">reply</a>
+                <a style="text-decoration: underline;; margin-left:20px" href="/comments/<%= comment.id %>">reply</a>
             </div>
-            <%end%></td>
 
-                <%@replies=Reply.where("comment_id=?",comentari.id).order("created_at DESC")%>
-                <% @replies.each do |reply| %>
-                <div style="color:grey;margin-left:25px">
-                    <table>
-                        <tr>
-                            <td>
-                            <% if current_user != nil && current_user.id != reply.user.id %>
-                                <form action="/replies/<%= reply.id %>/vote" method="POST"
-                                  id="upvote_reply_form">
-                                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                                    <% if current_user && !current_user.voted_for?(reply) %>
-                                    <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
-                                    <input type="image" name="submit_vote" src="/grayarrow.gif">
-                                    <% elsif !current_user %>
-                                    <a href="/auth/google_oauth2"><img src="/grayarrow.gif"></a>
-                                    <% end %>
-                                </form>
-                            <% elsif current_user != nil %>
-                                <font color="orange" size="3">*</font>
-                            <% else %>
-                                <a href="/auth/google_oauth2"><img src="/grayarrow.gif"></a>
-                            <% end %>
-                            </td>
-                            <td><a href="/users/<%= reply.comment.user.id %>"><%= reply.user.name %></a>
+            <% replies = comment.replies.all %>
+            <% replies.each do |reply| %>
+            <table>
+                <tr>
+                    <td>
+                        <a class="reply commentTitle" href="/users/<%= reply.user.id %>"> <%= reply.user.name %></a>
 
-                                <% time = (Time.now() - reply.created_at) %>
-                                    
-                                <% if time < 3600 %>
-                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/60).round %> minutes ago</a> | 
-                                <% end %>
-                            
-                                <% if time >= 3600 && time < 3600*24 %>
-                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/3600).round %> hours ago</a> | 
-                                <% end %>
-                                
-                                <% if time >= 3600*24 %>
-                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/(3600*24)).round %> days ago</a> | 
-                                <% end %>
-                                
-                        </tr>
-                        </table><table>
-                        <tr>
-                            <td> <%= reply.content %></td>
-                        </tr>
-                    </table>
-                </div>
-                <% end %>
-                <br>
-                <% end %>
-        </tr>
-    </table>
+                        <% time = (Time.now() - comment.created_at) %>
+
+                        <% if time < 60 %>
+                        <% showTime = time.round %>
+                        <% timeType = "seconds" %>
+                        <% end %>
+
+                        <% if time >= 60 && time < 120 %>
+                        <% showTime = (time/60).round %>
+                        <% timeType = "minute" %>
+                        <% end %>
+
+                        <% if time >= 120 && time < 3600 %>
+                        <% showTime = (time/60).round %>
+                        <% timeType = "minutes" %>
+                        <% end %>
+
+                        <% if time >= 3600 && time < 3600*2 %>
+                        <% showTime = (time/3600).round %>
+                        <% timeType = "hour" %>
+                        <% end %>
+
+                        <% if time >= 3600 && time < 3600*24 %>
+                        <% showTime = (time/3600).round %>
+                        <% timeType = "hours" %>
+                        <% end %>
+
+                        <% if time >= 3600*24 && time < 3600*24*2 %>
+                        <% showTime = (time/(3600*24)).round %>
+                        <% timeType = "day" %>
+                        <% end %>
+
+                        <% if time >= 3600*24 %>
+                        <% showTime = (time/(3600*24)).round %>
+                        <% timeType = "days" %>
+                        <% end %>
+
+                        <a class="commentTitle" href="/comments/<%= comment.id %>"><%= showTime %> <%= timeType %> ago</a>
+                    </td>
+                </tr>
+            </table>
+            <table class="reply">
+                <tr>
+                    <td style="color:black; font-size:13px;"> <%= reply.content %></td>
+                </tr>
+            </table>
+            <br>
+            <%end%>
+            <%end%>
+        </td>
+    </tr>
+</table>

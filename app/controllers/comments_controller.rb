@@ -34,6 +34,7 @@ class CommentsController < ApplicationController
       @commentsandreplies = Comment.where(user_id: params[:id])
     end
 
+
     def vote
         @comment = Comment.find(params[:id])
          begin
@@ -41,7 +42,7 @@ class CommentsController < ApplicationController
          rescue Exception
         end
 
-        redirect_to "/"
+        redirect_to @comment.contribution
     end
 
 
@@ -52,7 +53,7 @@ class CommentsController < ApplicationController
          rescue Exception
         end
 
-        redirect_to "/"
+        redirect_to @comment.contribution
     end
 
     private

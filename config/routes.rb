@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   resources :users
   resources :contributions, path: '/' 
   root 'contributions#newest'
+  
 end

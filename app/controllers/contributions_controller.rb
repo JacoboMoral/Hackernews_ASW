@@ -100,6 +100,7 @@ class ContributionsController < ApplicationController
 
   def unvote
     @contribution = Contribution.find(params[:id])
+
      begin
         @contribution.downvote_from current_user
      rescue Exception

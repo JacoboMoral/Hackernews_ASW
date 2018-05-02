@@ -127,5 +127,55 @@
                 <a style="text-decoration: underline;; margin-left:20px" href="#">reply</a>
             </div>
             <%end%></td>
+
+                <%@replies=Reply.where("comment_id=?",comentari.id).order("created_at DESC")%>
+                <% @replies.each do |reply| %>
+                <div style="color:grey;margin-left:25px">
+                    <table>
+                        <tr>
+                            <td>
+                            <% if current_user != nil && current_user.id != reply.user.id %>
+                                <form action="/replies/<%= reply.id %>/vote" method="POST"
+                                  id="upvote_reply_form">
+                                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                                    <% if current_user && !current_user.voted_for?(reply) %>
+                                    <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
+                                    <input type="image" name="submit_vote" src="/grayarrow.gif">
+                                    <% elsif !current_user %>
+                                    <a href="/auth/google_oauth2"><img src="/grayarrow.gif"></a>
+                                    <% end %>
+                                </form>
+                            <% elsif current_user != nil %>
+                                <font color="orange" size="3">*</font>
+                            <% else %>
+                                <a href="/auth/google_oauth2"><img src="/grayarrow.gif"></a>
+                            <% end %>
+                            </td>
+                            <td><a href="/users/<%= reply.comment.user.id %>"><%= reply.user.name %></a>
+
+                                <% time = (Time.now() - reply.created_at) %>
+                                    
+                                <% if time < 3600 %>
+                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/60).round %> minutes ago</a> | 
+                                <% end %>
+                            
+                                <% if time >= 3600 && time < 3600*24 %>
+                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/3600).round %> hours ago</a> | 
+                                <% end %>
+                                
+                                <% if time >= 3600*24 %>
+                                    <a href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/(3600*24)).round %> days ago</a> | 
+                                <% end %>
+                                
+                        </tr>
+                        </table><table>
+                        <tr>
+                            <td> <%= reply.content %></td>
+                        </tr>
+                    </table>
+                </div>
+                <% end %>
+                <br>
+                <% end %>
         </tr>
     </table>

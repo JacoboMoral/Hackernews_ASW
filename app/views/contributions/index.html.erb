@@ -18,10 +18,9 @@
             <% unless contribution.url == '' %>
               <a href="<%= contribution.url %>" class="storylink" target="_blank"><%= contribution.title %></a>
               <!-- TODO: Implement filter by site and show only domain name -->
-              <span class="sitebit comhead"> (<a href="#"><span class="sitestr"><%= contribution.url %></span></a>)</span></td>
+              <span class="sitebit comhead"> (<a href="<%= contribution.url %>"><span class="sitestr"><%= contribution.url %></span></a>)</span></td>
             <% else %>
-              <a href="/<%= contribution.id %>" class="storylink"><%= contribution.title %></a>
-              <span class="sitebit comhead"> (<a href="from?site=nirsoft.net"><span class="sitestr">nirsoft.net</span></a>)</span></td>
+              <a href="/<%= contribution.id %>" class="storylink"><%= contribution.title %></a></td>
             <% end %>
         </tr>
         <tr>

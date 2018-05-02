@@ -36,24 +36,28 @@ class CommentsController < ApplicationController
 
 
     def vote
-        @comment = Comment.find(params[:id])
-         begin
-            @comment.upvote_from current_user
-         rescue Exception
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.liked_by current_user
+        rescue Exception do |exception|
+          raise exception
         end
+      end
 
-        redirect_to @comment.contribution
+      redirect_to @comment.contribution
     end
 
 
     def unvote
-        @comment = Comment.find(params[:id])
-         begin
-            @comment.downvote_from current_user
-         rescue Exception
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.downvote_from current_user
+        rescue Exception do |exception|
+          raise exception
         end
+      end
 
-        redirect_to @comment.contribution
+      redirect_to @comment.contribution
     end
 
     private

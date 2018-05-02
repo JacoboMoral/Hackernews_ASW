@@ -8,13 +8,9 @@
           <td valign="top" class="votelinks">
             <center>
               <% if current_user != nil %>
-                  <a id='up_<%= contribution.id %>' href='contributions/vote/<%= contribution.id %>'>
-                  <form action="/vote/<%= contribution.id %>" method="POST"
-                    id="upvote_contribution_form">
+                  <a id='up_<%= contribution.id %>' href='contributions/<%= contribution.id %>/vote' class="<%= current_user.voted_up_on?(contribution) ? 'nosee' : nil %>">
                     <div class='votearrow' title='upvote'></div>
                   </a>
-              <% else %>
-                <font color="orange" size="3">*</font>
               <%end%>
             </center>
           </td>
@@ -79,11 +75,8 @@
             <% end %>
 
             <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
-            <% if current_user && current_user.upvotes(contribution) %>
-              | <a id="unvote" href= 'contributions/unvote/<%= contribution.id %>'>  unvote
-              <form action ="/unvote/<%= contribution.id %>" method="POST"
-                      id="downvote_contribution_form">
-              </a>
+            <% if current_user && current_user.voted_up_on?(contribution) %>
+              | <a id="unvote" href= 'contributions/<%= contribution.id %>/unvote'>  unvote</a>
             <%end%>
           </td>
         </tr>

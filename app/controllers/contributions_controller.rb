@@ -87,6 +87,8 @@ class ContributionsController < ApplicationController
   end
 
   def vote
+    return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
     @contribution = Contribution.find(params[:id])
     begin
          @contribution.liked_by current_user
@@ -99,6 +101,8 @@ class ContributionsController < ApplicationController
   end
 
   def unvote
+    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
     @contribution = Contribution.find(params[:id])
     begin
       @contribution.downvote_from current_user

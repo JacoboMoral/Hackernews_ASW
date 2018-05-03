@@ -30,6 +30,31 @@ class RepliesController < ApplicationController
     end
   end
 
+  def vote
+    @reply = Reply.find(params[:id])
+    begin
+      @reply.liked_by current_user
+      rescue Exception do |exception|
+        raise exception
+      end
+    end
+
+    redirect_to @reply.comment.contribution
+  end
+
+
+  def unvote
+    @reply = Reply.find(params[:id])
+    begin
+      @reply.downvote_from current_user
+      rescue Exception do |exception|
+        raise exception
+      end
+    end
+
+    redirect_to @reply.comment.contribution
+  end
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def reply_params

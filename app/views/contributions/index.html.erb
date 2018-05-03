@@ -7,11 +7,9 @@
           <td align="right" valign="top" class="title"><span class="rank"><%= index %></span></td>
           <td valign="top" class="votelinks">
             <center>
-              <% if current_user != nil %>
-                  <a id='up_<%= contribution.id %>' href='contributions/<%= contribution.id %>/vote' class="<%= current_user.voted_up_on?(contribution) ? 'nosee' : nil %>">
-                    <div class='votearrow' title='upvote'></div>
-                  </a>
-              <%end%>
+                <a id='up_<%= contribution.id %>' href='contributions/<%= contribution.id %>/vote' class="<%= (current_user != nil && current_user.voted_up_on?(contribution)) ? 'nosee' : nil %>">
+                  <div class='votearrow' title='upvote'></div>
+                </a>
             </center>
           </td>
           <td class="title">
@@ -102,24 +100,24 @@
       </tr>
     </table>
     <br>
-    <center>
-      <span class="yclinks">
-        <a href="newsguidelines.html">Guidelines</a>
-        | <a href="newsfaq.html">FAQ</a>
-        | <a href="mailto:hn@ycombinator.com">Support</a>
-        | <a href="https://github.com/HackerNews/API">API</a>
-        | <a href="security.html">Security</a>
-        | <a href="lists">Lists</a>
-        | <a href="bookmarklet.html" rel="nofollow">Bookmarklet</a>
-        | <a href="http://www.ycombinator.com/legal/">Legal</a>
-        | <a href="http://www.ycombinator.com/apply/">Apply to YC</a>
-        | <a href="mailto:hn@ycombinator.com">Contact</a>
-      </span>
-      <br><br>
-      <form method="get" action="//hn.algolia.com/">
-        Search:
-        <input type="text" name="q" value="" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false">
-      </form>
-    </center>
+    <!--<center>-->
+      <!--<span class="yclinks">-->
+        <!--<a href="newsguidelines.html">Guidelines</a>-->
+        <!--| <a href="newsfaq.html">FAQ</a>-->
+        <!--| <a href="mailto:hn@ycombinator.com">Support</a>-->
+        <!--| <a href="https://github.com/HackerNews/API">API</a>-->
+        <!--| <a href="security.html">Security</a>-->
+        <!--| <a href="lists">Lists</a>-->
+        <!--| <a href="bookmarklet.html" rel="nofollow">Bookmarklet</a>-->
+        <!--| <a href="http://www.ycombinator.com/legal/">Legal</a>-->
+        <!--| <a href="http://www.ycombinator.com/apply/">Apply to YC</a>-->
+        <!--| <a href="mailto:hn@ycombinator.com">Contact</a>-->
+      <!--</span>-->
+      <!--<br><br>-->
+      <!--<form method="get" action="//hn.algolia.com/">-->
+        <!--Search:-->
+        <!--<input type="text" name="q" value="" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false">-->
+      <!--</form>-->
+    <!--</center>-->
   </td>
 </tr>

@@ -41,6 +41,8 @@ class CommentsController < ApplicationController
 
 
     def vote
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
       @comment = Comment.find(params[:id])
       begin
         @comment.liked_by current_user
@@ -54,6 +56,8 @@ class CommentsController < ApplicationController
 
 
     def unvote
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
       @comment = Comment.find(params[:id])
       begin
         @comment.downvote_from current_user

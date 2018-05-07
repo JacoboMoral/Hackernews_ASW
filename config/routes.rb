@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   get 'replies/:id/vote' => 'replies#vote'
   get 'replies/:id/unvote' => 'replies#unvote'
 
+  get 'contributions' => 'contributions#index'
+  get 'contributions/:id' => 'contributions#show'
+
   resources :replies
   resources :comments, only: :create
   resources :users

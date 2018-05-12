@@ -99,26 +99,28 @@ class ContributionsController < ApplicationController
     return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
 
     @contribution = Contribution.find(params[:id])
-<<<<<<< HEAD
-    if
-         #@contribution.liked_by current_user
-     render :json => { "vote" => @contribution.get_upvotes.size, "voted" => @contribution.liked_by(current_user)}
-     return;
-       #rescue Exception do |exception|
-           #raise exception
-         #end
-    end
-=======
+    auth_user = current_user
     begin
-         @contribution.liked_by current_user
-       rescue Exception do |exception|
-           raise exception
-         end
-       end
-
-    redirect_to "/"
->>>>>>> master
+      tmp = User.where("oauth_token=?", request.headers["HTTP_API_KEY"])[0]
+      if (tmp)
+        auth_user = tmp
+      end
+    rescue
+      # intentionally left out
+    end
+    #respond_to do |format|
+      if (auth_user)
+        #format.html { redirect_to @contribution, notice: 'Contribution was successfully updated.'}
+        #format.json { render json: @contribution.get_upvotes.size, voted: @contribution.liked_by(current_user)  }
+        render :json => { "vote" => @contribution.get_upvotes.size, "voted" => @contribution.liked_by(current_user)}
+        return
+      else
+        #format.html { redirect_to @contribution, notice: 'Contribution was successfully updated.'}
+        #format.json { render json: @contribution.get_upvotes.size, voted: false  }
+        render :json => { "vote": @contribution.get_upvotes.size, "voted": false}
+        return
   end
+end
 
   def unvote
     redirect_to '/auth/google_oauth2' unless user_is_logged_in?

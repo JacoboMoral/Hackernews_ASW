@@ -6,6 +6,31 @@ class CommentsController < ApplicationController
         @replies = Reply.where("comment_id=?",@comment.id).order("created_at DESC")
     end
 
+    def index
+      @comments = Comment.all
+    end
+
+    def show
+    end
+
+    def contribution_comments
+       begin
+        @comments = Comment.where("contribution_id=?", params[:id]).order("created_at DESC")
+      rescue ActiveRecord::RecordNotFound
+        render :json => { "code" => "404", "message" => "Contribution not found."}, status: :not_found
+      end
+    end
+
+    def user_comments
+    begin
+      @user = User.find(params[:user])
+      @comments = Comment.where("user_id=?", params[:user]).order("created_at DESC")
+    rescue ActiveRecord::RecordNotFound
+      render :json => { "code" => "404", "message" => "User not found."}, status: :not_found
+    end
+  end
+  
+
     def create
         auth_user = current_user
         begin
@@ -53,6 +78,8 @@ class CommentsController < ApplicationController
 
       redirect_to @comment.contribution
     end
+
+
 
 
     def unvote

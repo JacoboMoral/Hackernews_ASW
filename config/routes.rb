@@ -17,9 +17,13 @@ Rails.application.routes.draw do
   get 'replies/:id/vote' => 'replies#vote'
   get 'replies/:id/unvote' => 'replies#unvote'
 
-  get 'contributions' => 'contributions#index'
+  get '/contributions' => 'contributions#index'
+  #api
   get 'contributions/:id' => 'contributions#show'
-
+  get '/contributions/:id/comments' => 'comments#contribution_comments'
+  get 'users/:user/comments' => 'comments#user_comments'
+  get 'user_contributions' => 'contributions#user_contributions'
+  get '/comments/:id/replies' => 'replies#comment_replies'
 
   post 'contributions/vote/:id' => 'contributions#vote'
   post 'contributions/unvote/:id' => 'contributions#unvote'
@@ -33,8 +37,8 @@ Rails.application.routes.draw do
 
 
 
-  resources :reply
-  resources :comments, only: :create
+  resources :replies
+  resources :comments
   resources :users
   resources :contributions, path: '/'
   root 'contributions#newest'

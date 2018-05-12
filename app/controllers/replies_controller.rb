@@ -1,5 +1,24 @@
 class RepliesController < ApplicationController
 
+
+  # GET /replies.json
+  def index
+    @replies = Reply.all
+  end
+
+  #Get /replies/1.json
+  def show
+    @reply = Reply.find(params[:id])
+  end
+
+  def comment_replies
+    begin
+      @replies = Reply.where("comment_id=?", params[:id]).order("created_at DESC")
+    rescue ActiveRecord::RecordNotFound
+      render :json => { "code" => "404", "message" => "Comment not found."}, status: :not_found
+    end
+  end
+
   def create
     auth_user = current_user
     begin
@@ -43,6 +62,7 @@ class RepliesController < ApplicationController
 
     redirect_to @reply.comment.contribution
   end
+
 
 
   def unvote

@@ -74,7 +74,227 @@ paths:
           description: "Error inesperat."
           schema:
             $ref: "#/definitions/Error"
+  # GET comments by specific user
+  /users/{id}/comments.json:
+    get:
+      summary: "Comments of a User"
+      description: Retorna tots els comentaris de l'usuari amb id 'id'.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de l'usuari.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'han retornat els comentaris de l'usuari.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        404:
+          description: L'usuari no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+   # GET url contributions list
+  /contributions.json:
+    get:
+      description: Retorna un llistat de publicacions de tipus 'URL', es a dir, amb el camp url no buit ordenat cronologicament.
+      responses:
+        200:
+          description: S'ha retornat totes les contributions de tipus 'URL'.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contribution'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+  # GET specific contribution info
+  /contributions/{id}.json:
+    get:
+      description: Retorna la informació d'un publicació.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de la publicació.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'ha retornat la publicació especificada.
+          schema:
+            $ref: '#/definitions/Contribution'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /contributions/{id}/comments.json:
+    get:
+      description: Retorna tots els comentaris de la contribution amb id 'id'.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de la publicació
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'han retornat tots els comentaris de la publicació.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'          
+  
+  # GET contributions by specific user          
+  /{id}_contributions.json:
+    get:
+      description: Retorna totes els publicacions de l'usuari amb id 'id'.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de l'usuari.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'han retornat les publicacions de l'usuari especificat.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contribution'
+        404:
+          description: L'usuari no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'        
 
+      
+  /comments.json:
+    get:
+      summary: "Comments"
+      description: Retorna tots els comentaris.
+      responses:
+        200:
+          description: S'han retornat tots els comentaris.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+            
+  # GET specific comment info
+  /comments/{id}.json:
+    get:
+      summary: "Specific comment"
+      description: Retorna la informació d'un comentari.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador del comentari.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'ha retornat el comentari.
+          schema:
+            $ref: '#/definitions/Comment'
+        404:
+          description: Comentari no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+    # GET specific comment info
+  /comments/{id}/replies.json:
+    get:
+      description: Retorna la els replies del comentari amb id = id.
+      parameters:
+        - name: id
+          in: path
+          description: replies de comentari.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'han retornat els replies del comentari.
+          schema:
+            $ref: '#/definitions/Comment'
+        404:
+          description: Comentari no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+  
+  # GET all replies
+  /replies.json:
+    get:
+      summary: "Replies"
+      description: Retorna totes les respostes.
+      responses:
+        200:
+          description: S'han retornat totes les respostes.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Reply'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+            
+  # GET specific reply info
+  /replies/{id}.json:
+    get:
+      summary: "Specific reply"
+      description: Retorna la informació d'una resposta especificada a un comentari.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de la resposta.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'ha retornat la resposta
+          schema:
+            $ref: '#/definitions/Reply'
+        404:
+          description: Resposta no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
     User:
       type: object

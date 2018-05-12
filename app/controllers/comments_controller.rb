@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
       render :json => { "code" => "404", "message" => "User not found."}, status: :not_found
     end
   end
-  
+
 
     def create
         auth_user = current_user
@@ -61,7 +61,10 @@ class CommentsController < ApplicationController
 
     def threads
       @user = User.find(params[:id])
-      @commentsandreplies = (Comment.where(user_id: params[:id]) + Reply.where(user_id: params[:id])).sort_by(&:created_at).reverse
+      @commentsandreplies = (Comment.where(user_id: @user.id) + Reply.where(user_id: @user.id)).sort_by(&:created_at).reverse
+      respond_to do |format|
+          format.json { render json: @commentsandreplies }
+        end
     end
 
 

@@ -1,4 +1,4 @@
-json.array!(@submissions) do |contribution|
+json.array!(@contributions) do |contribution|
   json.extract! contribution, :id, :title, :url, :text, :user_id
   json.set! "_links" do
     json.set! "self" do

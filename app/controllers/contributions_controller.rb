@@ -10,7 +10,7 @@ class ContributionsController < ApplicationController
   # GET /contributions
   # GET /contributions.json
   def index
-    @contributions = Contribution.all
+    @contributions = Contribution.where.not(url: '').order(points: :desc)
   end
 
   # GET /contributions/newest
@@ -86,24 +86,29 @@ class ContributionsController < ApplicationController
     end
   end
 
-
   def vote
+    return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
     @contribution = Contribution.find(params[:id])
-     begin
-        @contribution.upvote_from current_user
-     rescue Exception
-    end
+    begin
+         @contribution.liked_by current_user
+       rescue Exception do |exception|
+           raise exception
+         end
+       end
 
     redirect_to "/"
   end
 
-
   def unvote
-    @contribution = Contribution.find(params[:id])
+    redirect_to '/auth/google_oauth2' unless user_is_logged_in?
 
-     begin
-        @contribution.downvote_from current_user
-     rescue Exception
+    @contribution = Contribution.find(params[:id])
+    begin
+      @contribution.downvote_from current_user
+      rescue Exception do |exception|
+        raise exception
+      end
     end
 
     redirect_to "/"
@@ -120,14 +125,15 @@ class ContributionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contribution
-      @contribution = Contribution.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def contribution_params
-      params[:contribution][:user_id] = current_user.id
-      params.require(:contribution).permit(:title, :url, :text, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contribution
+    @contribution = Contribution.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def contribution_params
+    params[:contribution][:user_id] = current_user.id
+    params.require(:contribution).permit(:title, :url, :text, :user_id)
+  end
 end

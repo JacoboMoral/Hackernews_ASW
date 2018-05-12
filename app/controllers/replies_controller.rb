@@ -1,10 +1,5 @@
 class RepliesController < ApplicationController
 
-  # GET /replies/new
-  def new
-    @reply = Reply.new
-  end
-
   def create
     auth_user = current_user
     begin
@@ -26,13 +21,42 @@ class RepliesController < ApplicationController
            format.html { redirect_to @reply.comment.contribution, notice: 'Reply was successfully created.' }
            format.json { render :show, status: :created, location: @reply }
         else
-          format.html { redirect_to '/comments/' + (@reply.comment.id).to_s + '/newReply', notice: 'Please add a comment before submitting.' }
+          format.html { redirect_to '/comments/' + (@reply.comment.id).to_s, notice: 'Please add a comment before submitting.' }
           format.json { render json: @reply.errors, status: :unprocessable_entity }
         end
        end
     else
       redirect_to "/auth/google_oauth2"
     end
+  end
+
+  def vote
+    return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
+    @reply = Reply.find(params[:id])
+    begin
+      @reply.liked_by current_user
+      rescue Exception do |exception|
+        raise exception
+      end
+    end
+
+    redirect_to @reply.comment.contribution
+  end
+
+
+  def unvote
+    return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
+    @reply = Reply.find(params[:id])
+    begin
+      @reply.downvote_from current_user
+      rescue Exception do |exception|
+        raise exception
+      end
+    end
+
+    redirect_to @reply.comment.contribution
   end
 
   private

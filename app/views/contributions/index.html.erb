@@ -7,33 +7,33 @@
           <td align="right" valign="top" class="title"><span class="rank"><%= index %></span></td>
           <td valign="top" class="votelinks">
             <center>
-              <% if current_user != nil %>
-                  <a id='up_<%= contribution.id %>' href='contributions/vote/<%= contribution.id %>'>
-                  <form action="/vote/<%= contribution.id %>" method="POST"
-                    id="upvote_contribution_form">
-                    <div class='votearrow' title='upvote'></div>
-                  </a>
-              <% else %>
-                <font color="orange" size="3">*</font>
-              <%end%>
+                <a id='up_<%= contribution.id %>' href='contributions/<%= contribution.id %>/vote' class="<%= (current_user != nil && current_user.voted_up_on?(contribution)) ? 'nosee' : nil %>">
+                  <div class='votearrow' title='upvote'></div>
+                </a>
             </center>
           </td>
           <td class="title">
             <% unless contribution.url == '' %>
               <a href="<%= contribution.url %>" class="storylink" target="_blank"><%= contribution.title %></a>
               <!-- TODO: Implement filter by site and show only domain name -->
-              <span class="sitebit comhead"> (<a href="#"><span class="sitestr"><%= contribution.url %></span></a>)</span></td>
+              <span class="sitebit comhead"> (<a href="<%= contribution.url %>"><span class="sitestr"><%= contribution.url %></span></a>)</span></td>
             <% else %>
-              <a href="/<%= contribution.id %>" class="storylink"><%= contribution.title %></a>
-              <span class="sitebit comhead"> (<a href="from?site=nirsoft.net"><span class="sitestr">nirsoft.net</span></a>)</span></td>
+              <a href="/<%= contribution.id %>" class="storylink"><%= contribution.title %></a></td>
             <% end %>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td class="subtext">
+            <span class="score" id="score_<%= contribution.id %>"> <%= contribution.get_upvotes.size %> points</span> by
 
             <span class="score" id="score_<%= contribution.id %>"> <%= contribution.get_upvotes.size %> points</span> by
             <a href="users/<%= contribution.user.id %>" class="hnuser"><%= contribution.user.name %></a>
+
+            <%if current_user != nil && current_user.id == contribution.user.id%>
+            <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= contribution.user.id %>"> <%= contribution.user.name %></a>
+            <%else%>
+            <a class="commentTitle" href="/users/<%= contribution.user.id %>"> <%= contribution.user.name %></a>
+            <%end%>
 
             <% time = (Time.now() - contribution.created_at) %>
 
@@ -81,11 +81,8 @@
             <% end %>
 
             <span id="unv_<%= contribution.id %>"></span> | <a href="<%= contribution.id %>"><%= comments %> <%= show %></a>
-            <% if current_user && current_user.upvotes(contribution) %>
-              | <a id="unvote" href= 'contributions/unvote/<%= contribution.id %>'>  unvote
-              <form action ="/unvote/<%= contribution.id %>" method="POST"
-                      id="downvote_contribution_form">
-              </a>
+            <% if current_user && current_user.voted_up_on?(contribution) %>
+              | <a id="unvote" href= 'contributions/<%= contribution.id %>/unvote'>  unvote</a>
             <%end%>
           </td>
         </tr>
@@ -105,24 +102,24 @@
       </tr>
     </table>
     <br>
-    <center>
-      <span class="yclinks">
-        <a href="newsguidelines.html">Guidelines</a>
-        | <a href="newsfaq.html">FAQ</a>
-        | <a href="mailto:hn@ycombinator.com">Support</a>
-        | <a href="https://github.com/HackerNews/API">API</a>
-        | <a href="security.html">Security</a>
-        | <a href="lists">Lists</a>
-        | <a href="bookmarklet.html" rel="nofollow">Bookmarklet</a>
-        | <a href="http://www.ycombinator.com/legal/">Legal</a>
-        | <a href="http://www.ycombinator.com/apply/">Apply to YC</a>
-        | <a href="mailto:hn@ycombinator.com">Contact</a>
-      </span>
-      <br><br>
-      <form method="get" action="//hn.algolia.com/">
-        Search:
-        <input type="text" name="q" value="" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false">
-      </form>
-    </center>
+    <!--<center>-->
+      <!--<span class="yclinks">-->
+        <!--<a href="newsguidelines.html">Guidelines</a>-->
+        <!--| <a href="newsfaq.html">FAQ</a>-->
+        <!--| <a href="mailto:hn@ycombinator.com">Support</a>-->
+        <!--| <a href="https://github.com/HackerNews/API">API</a>-->
+        <!--| <a href="security.html">Security</a>-->
+        <!--| <a href="lists">Lists</a>-->
+        <!--| <a href="bookmarklet.html" rel="nofollow">Bookmarklet</a>-->
+        <!--| <a href="http://www.ycombinator.com/legal/">Legal</a>-->
+        <!--| <a href="http://www.ycombinator.com/apply/">Apply to YC</a>-->
+        <!--| <a href="mailto:hn@ycombinator.com">Contact</a>-->
+      <!--</span>-->
+      <!--<br><br>-->
+      <!--<form method="get" action="//hn.algolia.com/">-->
+        <!--Search:-->
+        <!--<input type="text" name="q" value="" size="17" autocorrect="off" spellcheck="false" autocapitalize="off" autocomplete="false">-->
+      <!--</form>-->
+    <!--</center>-->
   </td>
 </tr>

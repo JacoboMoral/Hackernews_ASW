@@ -12,7 +12,7 @@
             <div style="color:grey;margin-left:10px;">
 
                 <%if current_user != nil && current_user.id == @comment.user.id%>
-                <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @comment %>"> <%= @comment.user.name %></a>
+                <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @comment.user.id %>"> <%= @comment.user.name %></a>
                 <%else%>
                 <a class="commentTitle" href="/users/<%= @comment.user.id %>"> <%= @comment.user.name %></a>
                 <%end%>
@@ -82,14 +82,19 @@
 
             <br>
 
-             <p style="margin-left:20px" id="notice"><%= notice %></p>
+            <p style="margin-left:20px; color:red;" id="notice"><%= notice %></p>
             <br>
 
             <% @replies.each do |reply| %>
             <table>
                 <tr>
                     <td>
+
+                        <%if current_user != nil && current_user.id == reply.user.id%>
+                        <span style="margin-left:20px;color:orange;">*&nbsp</span><a style="color:green;margin-left:0px;" class="reply commentTitle" href="/users/<%= @comment %>"> <%= @comment.user.name %></a>
+                        <%else%>
                         <a class="reply commentTitle" href="/users/<%= reply.user.id %>"> <%= reply.user.name %></a>
+                        <%end%>
 
                         <% time = (Time.now() - reply.created_at) %>
 

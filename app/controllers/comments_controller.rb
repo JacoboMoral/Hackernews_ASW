@@ -35,8 +35,38 @@ class CommentsController < ApplicationController
     end
 
     def threads
-      @users = User.find(params[:id])
-      @commentsandreplies = Comment.where(user_id: params[:id]) | Reply.where(user_id: params[:id])
+      @user = User.find(params[:id])
+      @commentsandreplies = (Comment.where(user_id: params[:id]) + Reply.where(user_id: params[:id])).sort_by(&:created_at).reverse
+    end
+
+
+    def vote
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.liked_by current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
+    end
+
+
+    def unvote
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.downvote_from current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
     end
 
     private

@@ -8,7 +8,17 @@ Rails.application.routes.draw do
   get 'newest' => 'contributions#newest'
   get 'ask' => 'contributions#ask'
   get 'submit' => 'contributions#new'
-  get 'comments/:id/' => 'comments#newReply'
+  get 'comments/:id' => 'comments#newReply'
+
+  get 'contributions/:id/vote' => 'contributions#vote'
+  get 'contributions/:id/unvote' => 'contributions#unvote'
+  get 'comments/:id/vote' => 'comments#vote'
+  get 'comments/:id/unvote' => 'comments#unvote'
+  get 'replies/:id/vote' => 'replies#vote'
+  get 'replies/:id/unvote' => 'replies#unvote'
+
+  get 'contributions' => 'contributions#index'
+  get 'contributions/:id' => 'contributions#show'
 
 
   post 'contributions/vote/:id' => 'contributions#vote'

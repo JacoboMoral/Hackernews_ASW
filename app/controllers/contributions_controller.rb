@@ -13,6 +13,15 @@ class ContributionsController < ApplicationController
     @contributions = Contribution.where.not(url: '').order(points: :desc)
   end
 
+    def user_contributions
+    begin
+      @user = User.find(params[:user])
+      @contributions = Contribution.where("user_id=?", params[:user]).order("created_at DESC")
+    rescue ActiveRecord::RecordNotFound
+      render :json => { "status" => "404", "error" => "User not found."}, status: :not_found
+    end
+  end
+
   # GET /contributions/newest
   # GET /contributions/newest
   def newest

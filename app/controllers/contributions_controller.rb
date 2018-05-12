@@ -99,6 +99,7 @@ class ContributionsController < ApplicationController
     return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
 
     @contribution = Contribution.find(params[:id])
+<<<<<<< HEAD
     if
          #@contribution.liked_by current_user
      render :json => { "vote" => @contribution.get_upvotes.size, "voted" => @contribution.liked_by(current_user)}
@@ -107,6 +108,16 @@ class ContributionsController < ApplicationController
            #raise exception
          #end
     end
+=======
+    begin
+         @contribution.liked_by current_user
+       rescue Exception do |exception|
+           raise exception
+         end
+       end
+
+    redirect_to "/"
+>>>>>>> master
   end
 
   def unvote

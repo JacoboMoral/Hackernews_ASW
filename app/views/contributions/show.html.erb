@@ -26,7 +26,12 @@
                         <td class="subtext">
                             <span class="score" id="score_<%= @contribution.id %>"> <%= @contribution.get_upvotes.size %> points</span>
                             by
-                            <a href="users/<%= @contribution.user.id %>" class="hnuser"><%= @contribution.user.name %></a>
+                            <%if current_user != nil && current_user.id == @contribution.user.id%>
+                            <a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= @contribution.user.id %>"> <%= @contribution.user.name %></a>
+                            <%else%>
+                            <a class="commentTitle" href="/users/<%= @contribution.user.id %>"> <%= @contribution.user.name %></a>
+                            <%end%>
+
                             <span class="age">
                                 <a href="/<%= @contribution.id %>"><%= @contribution.created_at %></a>
                             </span>
@@ -44,7 +49,8 @@
                     <tr style="height:2px"></tr>
                     <tr>
                         <td colspan="2"></td>
-                        <td> <%= @contribution.text %> </p></td>
+                        <td> <%= @contribution.text %></td>
+                    </tr>
                     </tr>
                     <tr style="height:10px"></tr>
                     <tr>
@@ -65,7 +71,11 @@
                                     <br>
                                     <input type="submit" value="add comment">
                                 </form>
+                                <% if notice != nil && (notice.include? "successfully") %>
+                                <p style= "color: green" id="notice"><%= notice %></p>
+                                <%else%>
                                 <p style= "color: red" id="notice"><%= notice %></p>
+                                <%end%>
                             </div>
                         </td>
                     </tr>
@@ -76,7 +86,11 @@
                 <table>
                     <tr>
                         <td>
-                            <a class="commentTitle" href="#"> <%= comment.user.name %></a>
+                            <%if current_user != nil && current_user.id == comment.user.id%>
+                            <span style="margin-left:0px;color:orange;">*&nbsp</span><a style="color:green;margin-left:0px;" class="commentTitle" href="/users/<%= comment.user.id %>"> <%= comment.user.name %></a>
+                            <%else%>
+                            <a class="commentTitle" href="/users/<%= comment.user.id %>"> <%= comment.user.name %></a>
+                            <%end%>
 
                             <% time = (Time.now() - comment.created_at) %>
 
@@ -115,35 +129,91 @@
                             <% timeType = "days" %>
                             <% end %>
 
-                            <a class="commentTitle" href="#"><%= showTime %> <%= timeType %> ago</a>
+                            <a class="commentTitle" href="/comments/<%= comment.id %>"><%= showTime %> <%= timeType %> ago</a>
                         </td>
 
                         <td>
-
                             <span class="subtext" id="score_<%= comment.id %>"> <%= comment.get_upvotes.size %> points</span>
-
-                            <a class="commentTitle" href= 'comments/vote/<%= comment.id %>'> vote
-                              <form action ="/unvote/<%= comment.id %>" method="POST"
-                                      id="downvote_comment_form">
-                            </a>
-                            <a class="commentTitle" href= 'comments/unvote/<%= comment.id %>'> unvote
-                              <form action ="/unvote/<%= comment.id %>" method="POST"
-                                      id="downvote_comment_form">
-                            </a>
-
+                            <a class="commentTitle" href= 'comments/<%= comment.id %>/vote'> vote</a>
+                            <a class="commentTitle" href= 'comments/<%= comment.id %>/unvote'> unvote</a>
                         </td>
 
                     </tr>
                 </table>
-                <table style="margin-left:20px">
+                <table style="margin-left:20px; margin-bottom: 3px;">
                     <tr>
                         <td style="color:black;"> <%= comment.content %></td>
 
                     </tr>
 
                 </table>
-                <a style="text-decoration: underline;; margin-left:20px" href="#">reply</a>
+                <a style="text-decoration: underline; margin-left:20px" href="/comments/<%= comment.id %>">reply</a>
             </div>
-            <%end%></td>
-        </tr>
-    </table>
+
+            <% replies = comment.replies.all %>
+            <% replies.each do |reply| %>
+            <table>
+                <tr>
+                    <td>
+                        <%if current_user != nil && current_user.id == reply.user.id%>
+                        <span style="margin-left:50px;color:orange;">*&nbsp</span><a style="color:green;margin-left:0px;" class="reply commentTitle" href="/users/<%= reply.user.id %>"> <%= reply.user.name %></a>
+                        <%else%>
+                        <a class="reply commentTitle" href="/users/<%= reply.user.id %>"> <%= reply.user.name %></a>
+                        <%end%>
+                        <% time = (Time.now() - reply.created_at) %>
+
+                        <% if time < 60 %>
+                        <% showTime = time.round %>
+                        <% timeType = "seconds" %>
+                        <% end %>
+
+                        <% if time >= 60 && time < 120 %>
+                        <% showTime = (time/60).round %>
+                        <% timeType = "minute" %>
+                        <% end %>
+
+                        <% if time >= 120 && time < 3600 %>
+                        <% showTime = (time/60).round %>
+                        <% timeType = "minutes" %>
+                        <% end %>
+
+                        <% if time >= 3600 && time < 3600*2 %>
+                        <% showTime = (time/3600).round %>
+                        <% timeType = "hour" %>
+                        <% end %>
+
+                        <% if time >= 3600 && time < 3600*24 %>
+                        <% showTime = (time/3600).round %>
+                        <% timeType = "hours" %>
+                        <% end %>
+
+                        <% if time >= 3600*24 && time < 3600*24*2 %>
+                        <% showTime = (time/(3600*24)).round %>
+                        <% timeType = "day" %>
+                        <% end %>
+
+                        <% if time >= 3600*24 %>
+                        <% showTime = (time/(3600*24)).round %>
+                        <% timeType = "days" %>
+                        <% end %>
+
+                        <a class="commentTitle" href="/comments/<%= comment.id %>"><%= showTime %> <%= timeType %> ago</a>
+                    </td>
+                    <td>
+                        <span class="subtext" id="score_<%= reply.id %>"> <%= reply.get_upvotes.size %> points</span>
+                        <a class="commentTitle" href= 'replies/<%= reply.id %>/vote'> vote</a>
+                        <a class="commentTitle" href= 'replies/<%= reply.id %>/unvote'> unvote</a>
+                    </td>
+                </tr>
+            </table>
+            <table class="reply">
+                <tr>
+                    <td style="color:black; font-size:13px;"> <%= reply.content %></td>
+                </tr>
+            </table>
+            <br>
+            <%end%>
+            <%end%>
+        </td>
+    </tr>
+</table>

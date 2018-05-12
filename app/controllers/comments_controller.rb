@@ -1,7 +1,37 @@
 class CommentsController < ApplicationController
 
-    def create
 
+    def newReply
+        @comment = Comment.find(params[:id])
+        @replies = Reply.where("comment_id=?",@comment.id).order("created_at DESC")
+    end
+
+    def index
+      @comments = Comment.all
+    end
+
+    def show
+    end
+
+    def contribution_comments
+       begin
+        @comments = Comment.where("contribution_id=?", params[:id]).order("created_at DESC")
+      rescue ActiveRecord::RecordNotFound
+        render :json => { "code" => "404", "message" => "Contribution not found."}, status: :not_found
+      end
+    end
+
+    def user_comments
+    begin
+      @user = User.find(params[:user])
+      @comments = Comment.where("user_id=?", params[:user]).order("created_at DESC")
+    rescue ActiveRecord::RecordNotFound
+      render :json => { "code" => "404", "message" => "User not found."}, status: :not_found
+    end
+  end
+  
+
+    def create
         auth_user = current_user
         begin
           tmp = User.where("oauth_token=?", request.headers["HTTP_API_KEY"])[0]
@@ -30,30 +60,40 @@ class CommentsController < ApplicationController
     end
 
     def threads
-      @users = User.find(params[:id])
-      @commentsandreplies = Comment.where(user_id: params[:id])
+      @user = User.find(params[:id])
+      @commentsandreplies = (Comment.where(user_id: params[:id]) + Reply.where(user_id: params[:id])).sort_by(&:created_at).reverse
     end
 
 
     def vote
-        @comment = Comment.find(params[:id])
-         begin
-            @comment.upvote_from current_user
-         rescue Exception
-        end
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
 
-        redirect_to @comment.contribution
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.liked_by current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
     end
 
 
-    def unvote
-        @comment = Comment.find(params[:id])
-         begin
-            @comment.downvote_from current_user
-         rescue Exception
-        end
 
-        redirect_to @comment.contribution
+
+    def unvote
+      return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+
+      @comment = Comment.find(params[:id])
+      begin
+        @comment.downvote_from current_user
+        rescue Exception do |exception|
+          raise exception
+        end
+      end
+
+      redirect_to @comment.contribution
     end
 
     private

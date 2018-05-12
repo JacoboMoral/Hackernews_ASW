@@ -166,6 +166,11 @@ pre { max-width: 900px; }
     margin-left:20px;
     margin-top:10px;
     font-size:10px;
+    margin-bottom:10px;
+}
+
+.reply{
+    margin-left: 50px;
 }
 
 .margin:nth-child(2){ /* first child */
@@ -174,6 +179,7 @@ pre { max-width: 900px; }
 .margin:last-child{
     margin-bottom:50px;
 }
+
 
 @media only screen and (min-width : 300px) and (max-width : 389px) {
     .comment { max-width: 270px; overflow: auto }

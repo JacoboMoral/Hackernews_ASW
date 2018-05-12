@@ -10,7 +10,7 @@ tags:
   description: "The user of Hackernews"
 
 schemes:
-- "http"
+- "https"
 
 paths:
   /users/{id}.json:
@@ -59,6 +59,22 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /ask.json:
+    get:
+      summary: "All ask contributions"
+      description: "Gets all contributions wuth url = null"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "S'ha retornat totes les submissions de tipus 'Ask'."
+          schema:
+            $ref: "#/definitions/Contribution"
+        default:
+          description: "Error inesperat."
+          schema:
+            $ref: "#/definitions/Error"
+
 definitions:
     User:
       type: object
@@ -80,7 +96,32 @@ definitions:
           description: instant de creació de l'usuari.
         updated_at:
           type: string
-          description: instant de l'última actualització de l'usuari.
+          description: instant de lúltima actualització de lusuari.
+
+    Contribution:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: identificador unic de la publicació.
+        title:
+          type: string
+          description: títol de la publicació.
+        url:
+          type: string
+          description: url associada a la publicació.
+        text:
+          type: string
+          description: text associat a la publicació.
+        user_id:
+          type: integer
+          description: identificador de l'usuari creador de la publicació.
+        created_at:
+          type: string
+          description: instant de creació de la publicació.
+        updated_at:
+          type: string
+          description: instant de l'última actualització de la publicació.
 
     Reply:
         type: object

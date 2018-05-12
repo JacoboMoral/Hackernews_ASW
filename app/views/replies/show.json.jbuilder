@@ -9,4 +9,7 @@ json.set! "_links" do
     json.set! "comment" do
       json.set! "href", comment_url(@reply.comment, format: :json)
     end
+    json.set! "contribution" do
+      json.set! "href", contribution_url(@reply.contribution, format: :json)
+    end
   end

@@ -63,6 +63,7 @@ class CommentsController < ApplicationController
       @user = User.find(params[:id])
       @commentsandreplies = (Comment.where(user_id: @user.id) + Reply.where(user_id: @user.id)).sort_by(&:created_at).reverse
       respond_to do |format|
+          format.html
           format.json { render json: @commentsandreplies }
         end
     end

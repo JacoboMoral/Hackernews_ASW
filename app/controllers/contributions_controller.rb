@@ -108,18 +108,16 @@ class ContributionsController < ApplicationController
     rescue
       # intentionally left out
     end
-    #respond_to do |format|
-      if (auth_user)
-        #format.html { redirect_to @contribution, notice: 'Contribution was successfully updated.'}
-        #format.json { render json: @contribution.get_upvotes.size, voted: @contribution.liked_by(current_user)  }
-        render :json => { "vote" => @contribution.get_upvotes.size, "voted" => @contribution.liked_by(current_user)}
-        return
-      else
-        #format.html { redirect_to @contribution, notice: 'Contribution was successfully updated.'}
-        #format.json { render json: @contribution.get_upvotes.size, voted: false  }
-        render :json => { "vote": @contribution.get_upvotes.size, "voted": false}
-        return
-  end
+
+    begin
+      @contribution.liked_by(auth_user)
+    rescue
+      # ok
+    end
+    respond_to do |format|
+      format.html {redirect_to "/"}
+      format.json { render :json => @contribution }
+    end
 end
 
   def unvote

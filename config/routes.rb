@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   get 'comments/unvote/:id' => 'comments#unvote'
 
 
+  put 'users' => 'users#update_authenticated'
+
+
 
   resources :replies
   resources :comments

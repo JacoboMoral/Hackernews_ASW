@@ -12,6 +12,7 @@ tags:
 schemes:
 - "https"
 
+#PETICIONS----------------------------------------------------
 paths:
   /users/{id}.json:
     get:
@@ -59,31 +60,6 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-<<<<<<< HEAD
-    contributions/{id}/vote:
-      post:
-        summary: "Vote of a user"
-        description: "Counts the vote of a user"
-        produces:
-        - "application/json"
-        parameters:
-        - name: "id"
-          in: "path"
-          description: "The id of the user"
-          required: true
-          type: "integer"
-          format: "int64"
-        responses:
-          200:
-            description: "successful operation"
-            schema:
-              $ref: "#/definitions/Thread"
-          default:
-            description: "Uexpected Error!"
-            schema:
-              $ref: "#/definitions/Error"
-
-=======
   /ask.json:
     get:
       summary: "All ask contributions"
@@ -99,8 +75,59 @@ paths:
           description: "Error inesperat."
           schema:
             $ref: "#/definitions/Error"
->>>>>>> master
 
+  /contributions/{id}/vote.json:
+    post:
+      security:
+        - apiKey: []
+      summary: "Vot de l'usuari"
+      description: "Vot de l'usuari a una contribució"
+      parameters:
+        - name: id
+          in: path
+          description: Identificador de la publicació.
+          required: true
+          type: integer
+          format: int64
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: S'ha votat la publicació especificada amb l'usuari autenticat.
+        404:
+          description: La publicació no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /comments/{id}/vote.json:
+    post:
+      security:
+        - apiKey: []
+      description: Vota el comentari amb id 'id'.
+      parameters:
+        - name: id
+          in: path
+          description: Identificador del comentari.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: S'ha votat el comentari especificat amb l'usuari autenticat.
+        404:
+          description: Comentari no existeix.
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: Error inesperat.
+          schema:
+            $ref: '#/definitions/Error'
+
+#DEFINITIONS ---------------------------------------------------
 definitions:
     User:
       type: object

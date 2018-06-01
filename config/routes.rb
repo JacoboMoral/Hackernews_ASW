@@ -37,7 +37,6 @@ Rails.application.routes.draw do
   get 'comments/unvote/:id' => 'comments#unvote'
 
 
-
   resources :replies
   resources :comments
   resources :users

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  skip_before_action :verify_authenticity_token, only: []
+  #skip_before_action :verify_authenticity_token, only: []
+  before_action :authenticate, only: [:apiUpdate]
   # GET /users
   # GET /users.json
   def index
@@ -94,4 +95,30 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :user_id, :about)
     end
+end
+
+# def api_update
+#   if params[:id].to_s != @api_user.id.to_s
+#     render_unauthorized
+#   else
+#     @api_user.update(user_params)
+#     render json: @api_user
+#   end
+# end
+
+def apiUpdate
+  key = request.headers["X-API-KEY"]
+  @user = User.find(params[:id])
+    if @user.token == key
+      if  @user.update(params.permit(:about))
+        render json: {status: 'SUCCES', message: 'User has been updated', data:[]}, status: :ok
+      else
+        render json: {status: 'ERROR', message: 'Could not update the user', data:[]}, status: :internal_server_error
+      end
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
+  end
+end
+
 end

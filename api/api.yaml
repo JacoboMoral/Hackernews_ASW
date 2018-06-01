@@ -136,7 +136,7 @@ paths:
           description: Error inesperat.
           schema:
             $ref: '#/definitions/Error'
-            
+
   /contributions/{id}/comments.json:
     get:
       description: Retorna tots els comentaris de la contribution amb id 'id'.
@@ -157,9 +157,9 @@ paths:
         default:
           description: Error inesperat.
           schema:
-            $ref: '#/definitions/Error'          
-  
-  # GET contributions by specific user          
+            $ref: '#/definitions/Error'
+
+  # GET contributions by specific user
   /{id}_contributions.json:
     get:
       description: Retorna totes els publicacions de l'usuari amb id 'id'.
@@ -184,9 +184,9 @@ paths:
         default:
           description: Error inesperat.
           schema:
-            $ref: '#/definitions/Error'        
+            $ref: '#/definitions/Error'
 
-      
+
   /comments.json:
     get:
       summary: "Comments"
@@ -202,7 +202,7 @@ paths:
           description: Error inesperat.
           schema:
             $ref: '#/definitions/Error'
-            
+
   # GET specific comment info
   /comments/{id}.json:
     get:
@@ -252,7 +252,7 @@ paths:
           description: Error inesperat.
           schema:
             $ref: '#/definitions/Error'
-  
+
   # GET all replies
   /replies.json:
     get:
@@ -269,7 +269,7 @@ paths:
           description: Error inesperat.
           schema:
             $ref: '#/definitions/Error'
-            
+
   # GET specific reply info
   /replies/{id}.json:
     get:
@@ -295,6 +295,9 @@ paths:
           description: Error inesperat.
           schema:
             $ref: '#/definitions/Error'
+
+##########################################################################################
+
 definitions:
     User:
       type: object

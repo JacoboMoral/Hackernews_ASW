@@ -45,8 +45,8 @@ Rails.application.routes.draw do
   post 'comments/apiDownVote/:id' => 'comments#apiDownVote'
 
   post 'replies/:id/apiCreateReply' => 'replies#apiCreateReply'
-  # post 'replies/apiUpVote/:id' => 'replies#apiUpVote'
-  # post 'replies/apiDownVote/:id' => 'replies#apiDownVote'
+  post 'replies/apiUpVote/:id' => 'replies#apiUpVote'
+  post 'replies/apiDownVote/:id' => 'replies#apiDownVote'
 
   resources :replies
   resources :comments

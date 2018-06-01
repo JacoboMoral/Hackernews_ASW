@@ -86,6 +86,21 @@ class RepliesController < ApplicationController
     redirect_to @reply.comment.contribution
   end
 
+  def apiUpVote
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:idu])
+    if @user.oauth_token == key
+      @reply = Reply.find(params[:id])
+      if @reply == nil
+        render json: {status: 'ERROR', message: 'Comment does not exist', data: []}, status: :internal_server_error
+      end
+      @reply.liked_by @user
+      render json: {status: 'SUCCESS', message: 'Comment upvoted', data: []}, status: :ok
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
+  end
+
 
 
   def unvote
@@ -100,6 +115,21 @@ class RepliesController < ApplicationController
     end
 
     redirect_to @reply.comment.contribution
+  end
+
+  def apiDownVote
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:idu])
+    if @user.oauth_token == key
+      @reply = Reply.find(params[:id])
+      if @reply == nil
+        render json: {status: 'ERROR', message: 'Comment does not exist', data: []}, status: :internal_server_error
+      end
+      @reply.unliked_by @user
+      render json: {status: 'SUCCESS', message: 'Comment upvoted', data: []}, status: :ok
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
   end
 
   private

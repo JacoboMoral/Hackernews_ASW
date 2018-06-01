@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate
-    if request.authorization and user = User.find_by_email(decode(request.authorization))
+    if request.authorization and user = User.find(params[:id])
       @api_user = user
     else
       render_unauthorized

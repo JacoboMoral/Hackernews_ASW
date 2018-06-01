@@ -173,6 +173,38 @@ class ContributionsController < ApplicationController
     end
   end
 
+  def apiVote
+    #return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:idu])
+    if @user.oauth_token == key
+      @contribution = Contribution.find(params[:id])
+      if @contribution == nil
+        render json: {status: 'ERROR', message: 'Contribution does not exist', data: []}, status: :internal_server_error
+      end
+      @contribution.liked_by @user
+      render json: {status: 'SUCCESS', message: 'Contribution upvoted', data: []}, status: :ok
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
+  end
+
+  def apiDownVote
+    #return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:idu])
+    if @user.oauth_token == key
+      @contribution = Contribution.find(params[:id])
+      if @contribution == nil
+        render json: {status: 'ERROR', message: 'Contribution does not exist', data: []}, status: :internal_server_error
+      end
+       @contribution.unliked_by @user
+      render json: {status: 'SUCCESS', message: 'Contribution downvoted', data: []}, status: :ok
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

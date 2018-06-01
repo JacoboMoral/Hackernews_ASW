@@ -49,6 +49,29 @@ class RepliesController < ApplicationController
     end
   end
 
+  def apiCreateReply
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:idu])
+      if @user.oauth_token == key
+        @comment = Comment.find(params[:id])
+        if @comment == nil
+          render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+        else
+          @reply = Reply.new(params.permit(:content))
+          @reply.user_id = params[:idu]
+          @reply.comment_id = params[:id]
+          if @reply.save
+            render json: {status: 'SUCCESS', message: 'Comment saved', data: @reply}, status: :ok
+          else
+            render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+
+          end
+        end
+      else
+        render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+      end
+  end
+
   def vote
     return redirect_to '/auth/google_oauth2' unless user_is_logged_in?
 

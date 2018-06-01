@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   post 'contributions' => 'contributions#create'
   post 'contributions/ask' => 'contributions#apiCreateAsk'
   post 'contributions/url' => 'contributions#apiCreateUrl'
+  post 'comments/:id/apiCreateComment' => 'comments#apiCreateComment'
 
   resources :replies
   resources :comments

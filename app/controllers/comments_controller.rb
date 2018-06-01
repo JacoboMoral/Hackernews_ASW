@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-include SessionsHelper
-before_action :auth_token, only: []
-skip_before_action :verify_authenticity_token
+# include SessionsHelper
+# before_action :auth_token, only: []
+# skip_before_action :verify_authenticity_token
 # before_action :auth_token, only: [:apiCreate, :apiCreateReply, :apiUpvote, :apiUnvote, :apiDelete]
 # skip_before_action :verify_authenticity_token, only: [:apiCreate, :apiCreateReply, :apiUpvote, :apiUnvote, :apiDelete]
 
@@ -60,6 +60,29 @@ skip_before_action :verify_authenticity_token
             end
         else
             redirect_to "/auth/google_oauth2"
+        end
+    end
+
+    def apiCreateComment
+      key = request.headers["X-API-KEY"]
+      @user = User.find(params[:idu])
+        if @user.oauth_token == key
+          @contribution = Contribution.find(params[:id])
+          if @contribution == nil
+            render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+          else
+            @comment = Comment.new(params.permit(:content))
+            @comment.user_id = params[:idu]
+            @comment.contribution_id = params[:id]
+            if @comment.save
+              render json: {status: 'SUCCESS', message: 'Comment saved', data: @comment}, status: :ok
+            else
+              render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+
+            end
+          end
+        else
+          render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
         end
     end
 

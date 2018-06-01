@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get 'user_contributions' => 'contributions#user_contributions'
   get '/comments/:id/replies' => 'replies#comment_replies'
 
-  post 'contributions/vote/:id' => 'contributions#vote'
+  post 'contributions/:id/vote' => 'contributions#vote'
   post 'contributions/unvote/:id' => 'contributions#unvote'
   post 'comments/vote/:id' => 'comments#vote'
   post 'comments/unvote/:id' => 'comments#unvote'

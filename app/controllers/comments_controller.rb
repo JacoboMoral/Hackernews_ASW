@@ -1,5 +1,9 @@
 class CommentsController < ApplicationController
-
+include SessionsHelper
+before_action :auth_token, only: []
+skip_before_action :verify_authenticity_token
+# before_action :auth_token, only: [:apiCreate, :apiCreateReply, :apiUpvote, :apiUnvote, :apiDelete]
+# skip_before_action :verify_authenticity_token, only: [:apiCreate, :apiCreateReply, :apiUpvote, :apiUnvote, :apiDelete]
 
     def newReply
         @comment = Comment.find(params[:id])
@@ -101,7 +105,14 @@ class CommentsController < ApplicationController
     end
 
     private
-        def comment_params
-            params.require(:comment).permit(:content, :user_id, :contribution_id)
+      def comment_params
+          params.require(:comment).permit(:content, :user_id, :contribution_id)
+      end
+
+      def auth_token
+        auth_user = User.where("oauth_token=?", request.headers["HTTP_API_KEY"])[0]
+        if !auth_user
+          render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
         end
+      end
 end

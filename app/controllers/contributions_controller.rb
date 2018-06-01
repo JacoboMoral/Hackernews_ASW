@@ -1,4 +1,7 @@
 class ContributionsController < ApplicationController
+  include SessionsHelper
+  before_action :auth_token, only: []
+  skip_before_action :verify_authenticity_token
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
 
   VIEWS = {
@@ -144,5 +147,12 @@ class ContributionsController < ApplicationController
   def contribution_params
     params[:contribution][:user_id] = current_user.id
     params.require(:contribution).permit(:title, :url, :text, :user_id)
+  end
+
+  def auth_token
+    auth_user = User.where("oauth_token=?", request.headers["HTTP_API_KEY"])[0]
+    if !auth_user
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
   end
 end

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  skip_before_action :verify_authenticity_token, only: []
   # GET /users
   # GET /users.json
   def index
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   def edit
     if !current_user || (current_user && current_user.id != @user.id)
       redirect_to :controller => 'users', :action => 'show'
-      
+
     end
   end
 
@@ -57,6 +57,22 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  # PUT/PATCH /api/users/1
+  # def apiUpdate
+    # key = request.headers["X-API-KEY"]
+    # @user = User.find(params[:id])
+    #   if @user.token == key
+    #     if  @user.update(params.permit(:about))
+    #       render json: {status: 'SUCCES', message: 'User has been updated', data:[]}, status: :ok
+    #     else
+    #       render json: {status: 'ERROR', message: 'Could not update the user', data:[]}, status: :internal_server_error
+    #     end
+    #   else
+    #     render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    #   end
+    # end
+  # end
 
   # DELETE /users/1
   # DELETE /users/1.json

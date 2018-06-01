@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: "HackerNews"
 
-host: "hackernews13c.herokuapp.com"
+host: "localhost:3000"
 tags:
 - name: "user"
   description: "The user of Hackernews"
@@ -35,6 +35,35 @@ paths:
           description: "Uexpected Error!"
           schema:
             $ref: "#/definitions/Error"
+  /users/{id}/:
+    put:
+      tags:
+        - users
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          minimum: 1
+        - name: about
+          in: formData
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Perfil modificat
+        '401':
+          description: No es tenen permisos per modificar aquest perfil
+        '404':
+          description: El perfil no existeix
+        '409':
+          description: Error de modificació
+      security:
+        - api_key: []
 
   /threads/{id}.json:
     get:
@@ -416,3 +445,8 @@ definitions:
         fields:
           type: string
           description: camps de l'error.
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: X-API-KEY

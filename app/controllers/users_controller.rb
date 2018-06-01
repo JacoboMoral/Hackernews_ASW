@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+  class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   #skip_before_action :verify_authenticity_token, only: []
   # before_action :authenticate, only: [:apiUpdate]
@@ -85,6 +85,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # PUT /users/1/apiUpdate?about=XXXX
   def apiUpdate
     key = request.headers["X-API-KEY"]
     @user = User.find(params[:id])

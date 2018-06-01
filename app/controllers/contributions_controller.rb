@@ -1,7 +1,7 @@
 class ContributionsController < ApplicationController
-  include SessionsHelper
-  before_action :auth_token, only: []
-  skip_before_action :verify_authenticity_token
+  #include SessionsHelper
+  #before_action :auth_token, only: []
+  #skip_before_action :verify_authenticity_token
   before_action :set_contribution, only: [:show, :edit, :update, :destroy]
 
   VIEWS = {
@@ -136,6 +136,43 @@ class ContributionsController < ApplicationController
     end
   end
 
+  # POST /contributions
+  # POST /contributions.json
+  def apiCreateAsk
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:id])
+      if @user.oauth_token == key
+        @contribution = Contribution.new(params.permit(:title, :text))
+        @contribution.user_id = params[:id]
+        @contribution.url = ''
+          if @contribution.title != nil && @contribution.save
+             render json: {status: 'SUCCES', message: 'Post saved', data: @contribution}, status: :ok
+          else
+            render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+          end
+      else
+        render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+      end
+  end
+
+
+  def apiCreateUrl
+    key = request.headers["X-API-KEY"]
+    @user = User.find(params[:id])
+    if @user.oauth_token == key
+      @contribution = Contribution.new(params.permit(:title, :url))
+      @contribution.user_id = params[:id]
+      @contribution.text = ''
+        if @contribution.title != nil && @contribution.save  #es post
+           render json: {status: 'SUCCES', message: 'Post saved', data: @contribution}, status: :ok
+        else
+          render json: {status: 'ERROR', message: 'Internal server error', data:[]}, status: :internal_server_error
+        end
+    else
+      render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -155,4 +192,5 @@ class ContributionsController < ApplicationController
       render json: {status: 'ERROR', message: 'Authentication error', data:[]}, status: :unauthorized
     end
   end
+
 end

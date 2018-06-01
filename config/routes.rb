@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   get 'comments/vote/:id' => 'comments#vote'
   get 'comments/unvote/:id' => 'comments#unvote'
 
+  post 'contributions' => 'contributions#create'
+  post 'contributions/ask' => 'contributions#apiCreateAsk'
+  post 'contributions/url' => 'contributions#apiCreateUrl'
 
   resources :replies
   resources :comments

@@ -325,6 +325,287 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+    /contributions/ask:
+      post:
+        summary: "Create ask contribution"
+        description: Crea un post tipus ask
+        parameters:
+          - name: id
+            in: path
+            description: Identificador del post.
+            required: true
+            type: integer
+            format: int64
+          - name: title
+            in: path
+            description: titol del post
+            required: true
+            type: string
+            format: int64
+          - name: text
+            in: path
+            description: text del post
+            required: true
+            type: string
+            format: int64
+        responses:
+          200:
+            description: S'ha creat el post ask
+            schema:
+              $ref: '#/definitions/Contribution'
+          404:
+            description: Contribució no existeix.
+            schema:
+              $ref: '#/definitions/Error'
+          default:
+            description: Error inesperat.
+            schema:
+              $ref: '#/definitions/Error'
+
+/contributions/url:
+  post:
+    summary: "Create url contribution"
+    description: Crea un post tipus url
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del post.
+        required: true
+        type: integer
+        format: int64
+      - name: title
+        in: path
+        description: titol d'un post
+        required: true
+        type: string
+        format: int64
+      - name: url
+        in: path
+        description: text d'un post
+        required: true
+        type: string
+        format: int64
+    responses:
+      200:
+        description: S'ha creat el post ask
+        schema:
+          $ref: '#/definitions/Contribution'
+      404:
+        description: Contribució no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+contributions/apiUpVote/{id}:
+  post:
+    summary: "Vote a contribution"
+    description: Vota un post
+    parameters:
+      - name: id
+        in: path
+        description: Identificador de la contribució que es vota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha votat la contribució
+        schema:
+          $ref: '#/definitions/Contribution'
+      404:
+        description: Contribució no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+
+contributions/apiDownVote/{id}:
+  post:
+    summary: "Downvote a contribution"
+    description: Desvota un post
+    parameters:
+      - name: id
+        in: path
+        description: Identificador de la contribució que es desvota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha desvotat la contribució
+        schema:
+          $ref: '#/definitions/Contribution'
+      404:
+        description: Contribució no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+comments/{id}:
+  post:
+    summary: "Create comment on a contribution"
+    description: Crea un comentari a un post
+    parameters:
+      - name: id
+        in: path
+        description: Identificador de la contribució.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha creat el comentari a la contribució
+        schema:
+          $ref: '#/definitions/Comment'
+      404:
+        description: Comentari no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+comments/apiUpVote/{id}:
+  post:
+    summary: "Vote a comment"
+    description: Vota el comentari d'un post
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del comentari de la contribució que es vota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha votat el comentari de la contribució
+        schema:
+          $ref: '#/definitions/Comment'
+      404:
+        description: Comentari no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+comments/apiDownVote/{id}:
+  post:
+    summary: "Downvote a comment"
+    description: Desvota un comentari d'un post
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del comentari de la contribució que es desvota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha desvotat el comentari de la contribució
+        schema:
+          $ref: '#/definitions/Comment'
+      404:
+        description: Comentari no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+replies/{id}:
+  post:
+    summary: "Create reply on a comment"
+    description: Crea un reply d'un comentari
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del comentari.
+        required: true
+        type: integer
+        format: int64
+      - name: idcont
+        in: path
+        description: Identificador de la contribucio.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha creat la reply del comentari
+        schema:
+          $ref: '#/definitions/Reply'
+      404:
+        description: Reply no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+replies/apiDownVote/{id}:
+  post:
+    summary: "Downvote a reply"
+    description: Desvota el reply d'un comentari
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del reply que es desvota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha desvotat la reply
+        schema:
+          $ref: '#/definitions/Reply'
+      404:
+        description: Reply no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
+replies/apiUpVote/{id}:
+  post:
+    summary: "Vote a reply"
+    description: Vota el reply d'un comentari
+    parameters:
+      - name: id
+        in: path
+        description: Identificador del reply que es vota.
+        required: true
+        type: integer
+        format: int64
+    responses:
+      200:
+        description: S'ha votat la reply
+        schema:
+          $ref: '#/definitions/Reply'
+      404:
+        description: Reply no existeix.
+        schema:
+          $ref: '#/definitions/Error'
+      default:
+        description: Error inesperat.
+        schema:
+          $ref: '#/definitions/Error'
+
 ##########################################################################################
 
 definitions:
